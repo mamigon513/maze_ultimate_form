@@ -216,14 +216,6 @@ function move_forward() {
 }
 
 // # TRANSMISSION
-function on_button_pressed_a() {
-    basic.pause(1000)
-    for (let i = 0; i < path.length; i++) {
-        radio.sendValue("step", path[i])
-        basic.pause(700)
-    }
-}
-
 //  Small delay for good transmission
 // # CELEBRATE
 function total(bpm: number) {
@@ -312,8 +304,10 @@ let magnet_count = 1
 while (magnet_count < 3) {
     mag = magnet_detect()
     // magnet found
-    if (mag >= 300) {
+    if (mag >= 200) {
         magnet_count += 1
+        CutebotPro.trolleySteering(CutebotProTurn.LeftInPlace, 30)
+        CutebotPro.trolleySteering(CutebotProTurn.RightInPlace, 30)
         // magnet inside maze located
         if (magnet_count == 2) {
             path.push(4)
@@ -363,4 +357,14 @@ while (magnet_count < 3) {
     }
     
 }
+//  play celebration!!
 total(130)
+//  send path to other robot:
+input.onButtonPressed(Button.A, function on_button_pressed_a() {
+    basic.pause(1000)
+    for (let i = 0; i < path.length; i++) {
+        radio.sendValue("step", path[i])
+        basic.pause(700)
+    }
+})
+radio.setGroup(1)

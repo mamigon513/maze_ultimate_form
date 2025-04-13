@@ -306,8 +306,10 @@ magnet_count = 1
 while magnet_count < 3:
     mag = magnet_detect()
     #magnet found
-    if mag >= 300:
+    if mag >= 200:
        magnet_count+=1
+       CutebotPro.trolley_steering(CutebotProTurn.LEFT_IN_PLACE, 30)
+       CutebotPro.trolley_steering(CutebotProTurn.RIGHT_IN_PLACE, 30)
        #magnet inside maze located
        if magnet_count == 2:
            path.append(4)
@@ -347,4 +349,9 @@ while magnet_count < 3:
                     move_forward()
                     path.append(0)
 
+# play celebration!!
 total(130)
+
+# send path to other robot:
+input.on_button_pressed(Button.A, on_button_pressed_a)
+radio.set_group(1)
