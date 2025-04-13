@@ -254,7 +254,7 @@ def total(bpm):
                     music.PlaybackMode.UNTIL_DONE)
    
 ###### MAIN CODE ######
-control.in_background(onIn_background)
+#control.in_background(onIn_background)
 
 ## LINE FOLLOWING
 #set variables
@@ -306,7 +306,7 @@ magnet_count = 1
 while magnet_count < 3:
     mag = magnet_detect()
     #magnet found
-    if mag == 1:
+    if mag >= 300:
        magnet_count+=1
        #magnet inside maze located
        if magnet_count == 2:

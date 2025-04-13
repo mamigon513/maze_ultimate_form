@@ -36,6 +36,12 @@ function missionImpossibleMusic(bpm: number) {
 }
 
 //  make music play in background
+function onIn_background() {
+    music.setVolume(100)
+    missionImpossibleMusic(350)
+    
+}
+
 // # DIRECTION CORRECTION FUNCTIONS
 function straighten_to_line() {
     let speed: number;
@@ -263,11 +269,7 @@ function total(bpm: number) {
 }
 
 // ##### MAIN CODE ######
-control.inBackground(function onIn_background() {
-    music.setVolume(100)
-    missionImpossibleMusic(350)
-    
-})
+// control.in_background(onIn_background)
 // # LINE FOLLOWING
 // set variables
 let lwheel = 20
@@ -310,7 +312,7 @@ let magnet_count = 1
 while (magnet_count < 3) {
     mag = magnet_detect()
     // magnet found
-    if (mag == 1) {
+    if (mag >= 300) {
         magnet_count += 1
         // magnet inside maze located
         if (magnet_count == 2) {
