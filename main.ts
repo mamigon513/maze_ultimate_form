@@ -86,12 +86,18 @@ function straighten_to_line() {
 }
 
 function detect_line(): number {
+    
     //  get the line tracking offset
     let error = CutebotPro.getOffset()
     let line = 0
     //  detects black line
     if (Math.abs(error) < 3000) {
         CutebotPro.pwmCruiseControl(0, 0)
+        //  check for magnet at exit
+        if (magnet_detect() > 250 && magnet_count == 2) {
+            magnet_count = 3
+        }
+        
         basic.pause(100)
         straighten_to_line()
         line = 1

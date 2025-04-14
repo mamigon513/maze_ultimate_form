@@ -83,12 +83,16 @@ def straighten_to_line():
         error = CutebotPro.get_offset()
 
 def detect_line():
+    global magnet_count
     # get the line tracking offset
     error = CutebotPro.get_offset()
     line = 0
     # detects black line
     if abs(error) < 3000:
         CutebotPro.pwm_cruise_control(0, 0)
+        # check for magnet at exit
+        if magnet_detect() > 250 and magnet_count == 2:
+            magnet_count = 3
         basic.pause(100)
         straighten_to_line()
         line = 1
