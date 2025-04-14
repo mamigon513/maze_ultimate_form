@@ -306,10 +306,8 @@ let magnet_count = 1
 while (magnet_count < 3) {
     mag = magnet_detect()
     // magnet found
-    if (mag >= 200) {
+    if (mag >= 300) {
         magnet_count += 1
-        CutebotPro.trolleySteering(CutebotProTurn.LeftInPlace, 30)
-        CutebotPro.trolleySteering(CutebotProTurn.RightInPlace, 30)
         // magnet inside maze located
         if (magnet_count == 2) {
             path.push(4)
@@ -320,6 +318,7 @@ while (magnet_count < 3) {
     // end mazed navigation
     if (magnet_count == 3) {
         maze_exit = true
+        led.plot(0, 0)
     } else {
         // continue maze navigation
         //  Look left
