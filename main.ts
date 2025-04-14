@@ -14,7 +14,7 @@ function magnet_detect(): number {
     let magZ = input.magneticForce(Dimension.Z)
     //  take the distance so you can sense in any direction
     let force = Math.pow(magX * magX + magY * magY + magZ * magZ, .5)
-    if (force >= 500) {
+    if (force >= 400) {
         mag = 1
         //  turn headlights green
         CutebotPro.colorLight(CutebotProRGBLight.RGBL, 0x00ff00)

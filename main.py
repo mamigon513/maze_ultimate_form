@@ -8,7 +8,7 @@ def magnet_detect():
     magZ = input.magnetic_force(Dimension.Z)
     # take the distance so you can sense in any direction
     force = Math.pow((magX*magX + magY*magY + magZ*magZ), .5)
-    if force >= 500:
+    if force >= 400:
         mag = 1
          # turn headlights green
         CutebotPro.color_light(CutebotProRGBLight.RGBL, 0x00ff00)
