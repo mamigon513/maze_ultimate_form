@@ -286,7 +286,8 @@ let end = 0
 let lwheel = 20
 let rwheel = 20
 let error = 0
-let maxturnspeed = 70
+let maxturnspeed = 50
+let disp = 20
 //  set starting speed
 CutebotPro.pwmCruiseControl(lwheel, rwheel)
 basic.pause(50)
@@ -340,29 +341,29 @@ while (magnet_count < 3) {
         left = check_distance()
         basic.pause(100)
         //  Maze Nav -- Depth first (left favoring)
-        if (left > 16 && front > 16 && right > 16) {
+        if (left > disp && front > disp && right > disp) {
             grid = 1
             grid_type.push(grid)
             intersection.push(grid_type.length)
-        } else if (left > 16 && front > 16) {
+        } else if (left > disp && front > disp) {
             grid = 2
             grid_type.push(grid)
             intersection.push(grid_type.length)
-        } else if (left > 16 && right > 16) {
+        } else if (left > disp && right > disp) {
             grid = 3
             grid_type.push(grid)
             intersection.push(grid_type.length)
-        } else if (front > 16 && right > 16) {
+        } else if (front > disp && right > disp) {
             grid = 4
             grid_type.push(grid)
             intersection.push(grid_type.length)
-        } else if (left > 16) {
+        } else if (left > disp) {
             grid = 5
             grid_type.push(grid)
-        } else if (front > 16) {
+        } else if (front > disp) {
             grid = 6
             grid_type.push(grid)
-        } else if (right > 16) {
+        } else if (right > disp) {
             grid = 7
             grid_type.push(grid)
         } else {
@@ -371,16 +372,16 @@ while (magnet_count < 3) {
         }
         
         //  Movement Decision
-        if (left > 16) {
+        if (left > disp) {
             move_forward()
             path.push(2)
             basic.showNumber(2)
-        } else if (front > 16) {
+        } else if (front > disp) {
             turn_right()
             move_forward()
             path.push(1)
             basic.showNumber(1)
-        } else if (right > 16) {
+        } else if (right > disp) {
             turn_right()
             turn_right()
             move_forward()

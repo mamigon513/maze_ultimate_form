@@ -275,7 +275,8 @@ end = 0
 lwheel = 20
 rwheel = 20
 error = 0
-maxturnspeed = 70
+maxturnspeed = 50
+disp = 20
 
 # set starting speed
 CutebotPro.pwm_cruise_control(lwheel, rwheel)
@@ -338,29 +339,29 @@ while magnet_count < 3:
         basic.pause(100)
 
         # Maze Nav -- Depth first (left favoring)
-        if left>16 and front>16 and right>16:
+        if left>disp and front>disp and right>disp:
             grid = 1
             grid_type.append(grid)
             intersection.append(len(grid_type))
-        elif left > 16 and front > 16:
+        elif left > disp and front > disp:
             grid = 2
             grid_type.append(grid)
             intersection.append(len(grid_type))
-        elif left > 16 and right > 16:
+        elif left > disp and right > disp:
             grid = 3
             grid_type.append(grid)
             intersection.append(len(grid_type))
-        elif front > 16 and right > 16:
+        elif front > disp and right > disp:
             grid = 4
             grid_type.append(grid)
             intersection.append(len(grid_type))
-        elif left > 16:
+        elif left > disp:
             grid = 5
             grid_type.append(grid)
-        elif front > 16:
+        elif front > disp:
             grid = 6
             grid_type.append(grid)
-        elif right > 16:
+        elif right > disp:
             grid = 7
             grid_type.append(grid)
         else:
@@ -368,18 +369,18 @@ while magnet_count < 3:
             grid_type.append(grid)
 
         # Movement Decision
-        if left > 16:
+        if left > disp:
             move_forward()
             path.append(2)
             basic.show_number(2)
 
-        elif front > 16:
+        elif front > disp:
             turn_right()
             move_forward()
             path.append(1)
             basic.show_number(1)
 
-        elif right > 16:
+        elif right > disp:
             turn_right()
             turn_right()
             move_forward()
