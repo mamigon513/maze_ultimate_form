@@ -1,6 +1,6 @@
 ######FUNCTIONS######
 
-#magnet checking function
+#magnet checking function (return 1/0 for true/false)
 def magnet_detect():
     mag = 0
     magY = input.magnetic_force(Dimension.Y)
@@ -91,7 +91,7 @@ def detect_line():
     if abs(error) < 3000:
         CutebotPro.pwm_cruise_control(0, 0)
         # check for magnet at exit
-        if magnet_detect() > 250 and magnet_count == 2:
+        if magnet_detect() == 1 and magnet_count == 2:
             magnet_count = 3
         basic.pause(100)
         straighten_to_line()

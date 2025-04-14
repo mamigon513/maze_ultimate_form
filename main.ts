@@ -6,7 +6,7 @@ let grid: number;
 let disp: any;
 let direct: number;
 // #####FUNCTIONS######
-// magnet checking function
+// magnet checking function (return 1/0 for true/false)
 function magnet_detect(): number {
     let mag = 0
     let magY = input.magneticForce(Dimension.Y)
@@ -97,7 +97,7 @@ function detect_line(): number {
     if (Math.abs(error) < 3000) {
         CutebotPro.pwmCruiseControl(0, 0)
         //  check for magnet at exit
-        if (magnet_detect() > 250 && magnet_count == 2) {
+        if (magnet_detect() == 1 && magnet_count == 2) {
             magnet_count = 3
         }
         
