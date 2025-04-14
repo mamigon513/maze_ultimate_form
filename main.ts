@@ -397,6 +397,7 @@ while (magnet_count < 3) {
             path.push(0)
             displacement = path.length - intersection[-1] + 2
             basic.showNumber(displacement)
+            // go back to last intersection
             for (let i = 0; i < displacement; i++) {
                 direct = path[-1 * (i + 2)]
                 if (direct == 1) {

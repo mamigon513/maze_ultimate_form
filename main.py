@@ -396,6 +396,7 @@ while magnet_count < 3:
             path.append(0)
             displacement = (len(path) - intersection[-1]) + 2
             basic.show_number(displacement)
+            #go back to last intersection
             for i in range(displacement):
                 direct = path[(-1)*(i+2)]
                 if direct == 1:
