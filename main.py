@@ -169,8 +169,9 @@ def follow_line():
 def check_if_too_close():
     sonar = CutebotPro.ultrasonic(SonarUnit.CENTIMETERS)
     if sonar < 5: #check what is too close
-        # move back 5 cm
-        CutebotPro.distance_running(CutebotProOrientation.RETREAT, 5, CutebotProDistanceUnits.CM)
+        # move back a distance depending on how close
+        dist = 5-sonar
+        CutebotPro.distance_running(CutebotProOrientation.RETREAT, dist, CutebotProDistanceUnits.CM)
 
 ###functions for turning and moving forward
 def check_distance():

@@ -180,11 +180,13 @@ function follow_line() {
 
 //  function for checking if wall is too close and backing up:
 function check_if_too_close() {
+    let dist: number;
     let sonar = CutebotPro.ultrasonic(SonarUnit.Centimeters)
     if (sonar < 5) {
         // check what is too close
-        //  move back 5 cm
-        CutebotPro.distanceRunning(CutebotProOrientation.Retreat, 5, CutebotProDistanceUnits.Cm)
+        //  move back a distance depending on how close
+        dist = 5 - sonar
+        CutebotPro.distanceRunning(CutebotProOrientation.Retreat, dist, CutebotProDistanceUnits.Cm)
     }
     
 }
