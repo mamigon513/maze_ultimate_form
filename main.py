@@ -302,8 +302,7 @@ intersection: List[number] = []
 
 #originate empty path taken
 path: List[number] = []
-first_move_done = False
-maze_exit = False
+
 magnet_count = 1
 
 #maze navigation before exit magnet is located
@@ -312,8 +311,6 @@ while magnet_count < 3:
     #magnet found
     if mag == 1:
         magnet_count+=1
-        CutebotPro.single_headlights(CutebotProRGBLight.RGBL, 0, 255, 0)
-        CutebotPro.single_headlights(CutebotProRGBLight.RGBR, 0, 255, 0)
         #magnet inside maze located  
         if magnet_count == 2:
             path.append(4)
@@ -321,7 +318,6 @@ while magnet_count < 3:
 
     #end mazed navigation
     if magnet_count == 3:
-        maze_exit = True
         led.plot(0, 0)
 
     #continue maze navigation

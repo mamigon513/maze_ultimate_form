@@ -307,8 +307,6 @@ let grid_type : number[] = []
 let intersection : number[] = []
 // originate empty path taken
 let path : number[] = []
-let first_move_done = false
-let maze_exit = false
 let magnet_count = 1
 // maze navigation before exit magnet is located
 while (magnet_count < 3) {
@@ -316,8 +314,6 @@ while (magnet_count < 3) {
     // magnet found
     if (mag == 1) {
         magnet_count += 1
-        CutebotPro.singleHeadlights(CutebotProRGBLight.RGBL, 0, 255, 0)
-        CutebotPro.singleHeadlights(CutebotProRGBLight.RGBR, 0, 255, 0)
         // magnet inside maze located  
         if (magnet_count == 2) {
             path.push(4)
@@ -328,7 +324,6 @@ while (magnet_count < 3) {
     
     // end mazed navigation
     if (magnet_count == 3) {
-        maze_exit = true
         led.plot(0, 0)
     } else {
         // continue maze navigation
