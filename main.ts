@@ -323,7 +323,7 @@ while (magnet_count < 3) {
         
     }
     
-    // end mazed navigation
+    // end maze navigation
     if (magnet_count == 3) {
         led.plot(0, 0)
     } else {
@@ -393,6 +393,10 @@ while (magnet_count < 3) {
             path.push(0)
             basic.showNumber(0)
             displacement = path.length - intersection[intersection.length - 1]
+            if (magnet_count == 2) {
+                displacement = path.length - intersection[intersection.length - 1] - 1
+            }
+            
             basic.showNumber(displacement)
             if (displacement != 1) {
                 // go back to last intersection

@@ -317,7 +317,7 @@ while magnet_count < 3:
             path.append(4)
             basic.show_number(4)
 
-    #end mazed navigation
+    #end maze navigation
     if magnet_count == 3:
         led.plot(0, 0)
 
@@ -392,7 +392,9 @@ while magnet_count < 3:
             turn_left()
             path.append(0)
             basic.show_number(0)
-            displacement = (len(path) - intersection[len(intersection)-1]) 
+            displacement = (len(path) - intersection[len(intersection)-1])
+            if magnet_count == 2:
+                displacement = (len(path) - intersection[len(intersection)-1] - 1)
             basic.show_number(displacement)
             if displacement != 1:
                 #go back to last intersection
