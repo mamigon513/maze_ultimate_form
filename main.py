@@ -390,11 +390,12 @@ while magnet_count < 3:
             # Dead end
             turn_left()
             path.append(0)
-            displacement = (len(path) - (intersection[-1])) 
+            basic.show_number(0)
+            displacement = (len(path) - intersection[len(intersection)-1]) 
             basic.show_number(displacement)
             #go back to last intersection
             for i in range(displacement - 1): # move one square less than the displacement
-                direct = path[(-1)*(i+2)]
+                direct = path[len(path)-(i+2)]
                 if direct == 1:
                     move_forward()
                     basic.show_number(1)

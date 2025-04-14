@@ -390,12 +390,13 @@ while (magnet_count < 3) {
             //  Dead end
             turn_left()
             path.push(0)
-            displacement = path.length - intersection[-1]
+            basic.showNumber(0)
+            displacement = path.length - intersection[intersection.length - 1]
             basic.showNumber(displacement)
             // go back to last intersection
             for (let i = 0; i < displacement - 1; i++) {
                 //  move one square less than the displacement
-                direct = path[-1 * (i + 2)]
+                direct = path[path.length - (i + 2)]
                 if (direct == 1) {
                     move_forward()
                     basic.showNumber(1)
