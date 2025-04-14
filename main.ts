@@ -1,9 +1,9 @@
 let mag: number;
-let left: number;
 let front: number;
 let right: number;
+let left: number;
 let grid: number;
-let disp: any;
+let displacement: number;
 let direct: number;
 // #####FUNCTIONS######
 // magnet checking function (return 1/0 for true/false)
@@ -318,12 +318,12 @@ while (magnet_count < 3) {
         magnet_count += 1
         CutebotPro.singleHeadlights(CutebotProRGBLight.RGBL, 0, 255, 0)
         CutebotPro.singleHeadlights(CutebotProRGBLight.RGBR, 0, 255, 0)
-    }
-    
-    // magnet inside maze located
-    if (magnet_count == 2) {
-        path.push(4)
-        basic.showNumber(4)
+        // magnet inside maze located  
+        if (magnet_count == 2) {
+            path.push(4)
+            basic.showNumber(4)
+        }
+        
     }
     
     // end mazed navigation
@@ -332,17 +332,17 @@ while (magnet_count < 3) {
         led.plot(0, 0)
     } else {
         // continue maze navigation
-        //  Look left
-        turn_left()
-        left = check_distance()
-        basic.pause(100)
-        //  Face forward again
-        turn_right()
+        // Check forward 
         front = check_distance()
         basic.pause(100)
         //  Look right
         turn_right()
         right = check_distance()
+        basic.pause(100)
+        //  Look left
+        turn_left()
+        turn_left()
+        left = check_distance()
         basic.pause(100)
         //  Maze Nav -- Depth first (left favoring)
         if (left > 16 && front > 16 && right > 16) {
@@ -377,27 +377,28 @@ while (magnet_count < 3) {
         
         //  Movement Decision
         if (left > 16) {
-            turn_left()
-            turn_left()
             move_forward()
             path.push(2)
             basic.showNumber(2)
         } else if (front > 16) {
-            turn_left()
+            turn_right()
             move_forward()
             path.push(1)
             basic.showNumber(1)
         } else if (right > 16) {
+            turn_right()
+            turn_right()
             move_forward()
             path.push(3)
             basic.showNumber(3)
         } else {
             //  Dead end
-            turn_right()
+            turn_left()
             path.push(0)
-            disp = path.length - intersection[-1] + 2
-            for (let i = 0; i < disp; i++) {
-                direct = path[-(i + 2)]
+            displacement = path.length - intersection[-1] + 2
+            basic.showNumber(displacement)
+            for (let i = 0; i < displacement; i++) {
+                direct = path[-1 * (i + 2)]
                 if (direct == 1) {
                     move_forward()
                     basic.showNumber(1)

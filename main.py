@@ -314,11 +314,10 @@ while magnet_count < 3:
         magnet_count+=1
         CutebotPro.single_headlights(CutebotProRGBLight.RGBL, 0, 255, 0)
         CutebotPro.single_headlights(CutebotProRGBLight.RGBR, 0, 255, 0)
-        #magnet inside maze located
-            
-    if magnet_count == 2:
-        path.append(4)
-        basic.show_number(4)
+        #magnet inside maze located  
+        if magnet_count == 2:
+            path.append(4)
+            basic.show_number(4)
 
     #end mazed navigation
     if magnet_count == 3:
@@ -327,19 +326,19 @@ while magnet_count < 3:
 
     #continue maze navigation
     else:
-        # Look left
-        turn_left()
-        left = check_distance()
-        basic.pause(100)
-
-        # Face forward again
-        turn_right()
+        #Check forward 
         front = check_distance()
         basic.pause(100)
 
         # Look right
         turn_right()
         right = check_distance()
+        basic.pause(100)
+
+        # Look left
+        turn_left()
+        turn_left()
+        left = check_distance()
         basic.pause(100)
 
         # Maze Nav -- Depth first (left favoring)
@@ -374,30 +373,31 @@ while magnet_count < 3:
 
         # Movement Decision
         if left > 16:
-            turn_left()
-            turn_left()
             move_forward()
             path.append(2)
             basic.show_number(2)
 
         elif front > 16:
-            turn_left()
+            turn_right()
             move_forward()
             path.append(1)
             basic.show_number(1)
 
         elif right > 16:
+            turn_right()
+            turn_right()
             move_forward()
             path.append(3)
             basic.show_number(3)
 
         else:
             # Dead end
-            turn_right()
+            turn_left()
             path.append(0)
-            disp = len(path) - intersection[-1] + 2
-            for i in range(disp):
-                direct = path[-(i+2)]
+            displacement = (len(path) - intersection[-1]) + 2
+            basic.show_number(displacement)
+            for i in range(displacement):
+                direct = path[(-1)*(i+2)]
                 if direct == 1:
                     move_forward()
                     basic.show_number(1)
