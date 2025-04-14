@@ -297,8 +297,8 @@ CutebotPro.trolley_steering(CutebotProTurn.LEFT_IN_PLACE, 90)
 CutebotPro.distance_running(CutebotProOrientation.ADVANCE, 15.35, CutebotProDistanceUnits.CM)
 
 
-#grid_type: List[number] = [] #Java script, defines array as an integer array
-#intersection: List[number] = []
+grid_type: List[number] = [] #Java script, defines array as an integer array
+intersection: List[number] = []
 
 #originate empty path taken
 path: List[number] = []
@@ -310,15 +310,16 @@ magnet_count = 1
 while magnet_count < 3:
     mag = magnet_detect()
     #magnet found
-    if mag >= 250:
+    if mag == 1:
+        magnet_count+=1
         CutebotPro.single_headlights(CutebotProRGBLight.RGBL, 0, 255, 0)
         CutebotPro.single_headlights(CutebotProRGBLight.RGBR, 0, 255, 0)
-        magnet_count+=1
-       #magnet inside maze located
-        if magnet_count == 2:
-           path.append(4)
-           basic.show_number(4)
-    
+        #magnet inside maze located
+            
+    if magnet_count == 2:
+        path.append(4)
+        basic.show_number(4)
+
     #end mazed navigation
     if magnet_count == 3:
         maze_exit = True
@@ -326,38 +327,88 @@ while magnet_count < 3:
 
     #continue maze navigation
     else:
-    # Look left
+        # Look left
         turn_left()
         left = check_distance()
         basic.pause(100)
+
+        # Face forward again
+        turn_right()
+        front = check_distance()
+        basic.pause(100)
+
+        # Look right
+        turn_right()
+        right = check_distance()
+        basic.pause(100)
+
+        # Maze Nav -- Depth first (left favoring)
+        if left>16 and front>16 and right>16:
+            grid = 1
+            grid_type.append(grid)
+            intersection.append(len(grid_type))
+        elif left > 16 and front > 16:
+            grid = 2
+            grid_type.append(grid)
+            intersection.append(len(grid_type))
+        elif left > 16 and right > 16:
+            grid = 3
+            grid_type.append(grid)
+            intersection.append(len(grid_type))
+        elif front > 16 and right > 16:
+            grid = 4
+            grid_type.append(grid)
+            intersection.append(len(grid_type))
+        elif left > 16:
+            grid = 5
+            grid_type.append(grid)
+        elif front > 16:
+            grid = 6
+            grid_type.append(grid)
+        elif right > 16:
+            grid = 7
+            grid_type.append(grid)
+        else:
+            grid = 8
+            grid_type.append(grid)
+
+        # Movement Decision
         if left > 16:
+            turn_left()
+            turn_left()
             move_forward()
             path.append(2)
             basic.show_number(2)
+
+        elif front > 16:
+            turn_left()
+            move_forward()
+            path.append(1)
+            basic.show_number(1)
+
+        elif right > 16:
+            move_forward()
+            path.append(3)
+            basic.show_number(3)
+
         else:
-        # Look forward
+            # Dead end
             turn_right()
-            front = check_distance()
-            basic.pause(100)
-            if front > 16:
-                move_forward()
-                path.append(1)
-                basic.show_number(1)
-            else:
-            # Look right
-                turn_right()
-                right = check_distance()
-                basic.pause(100)
-                if right > 16:
+            path.append(0)
+            disp = len(path) - intersection[-1] + 2
+            for i in range(disp):
+                direct = path[-(i+2)]
+                if direct == 1:
                     move_forward()
-                    path.append(3)
-                    basic.show_number(3)
-                else:
-                    # Dead end
+                    basic.show_number(1)
+                elif direct == 2:
                     turn_right()
                     move_forward()
-                    path.append(0)
-                    basic.show_number(0)
+                    basic.show_number(3)
+                elif direct == 3:
+                    turn_left()
+                    move_forward()
+                    basic.show_number(2)
 
 # play celebration!!
 end = 1

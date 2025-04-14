@@ -2,6 +2,9 @@ let mag: number;
 let left: number;
 let front: number;
 let right: number;
+let grid: number;
+let disp: any;
+let direct: number;
 // #####FUNCTIONS######
 // magnet checking function
 function magnet_detect(): number {
@@ -299,8 +302,9 @@ CutebotPro.turnOffAllHeadlights()
 //  be square with maze:
 CutebotPro.trolleySteering(CutebotProTurn.LeftInPlace, 90)
 CutebotPro.distanceRunning(CutebotProOrientation.Advance, 15.35, CutebotProDistanceUnits.Cm)
-// grid_type: List[number] = [] #Java script, defines array as an integer array
-// intersection: List[number] = []
+let grid_type : number[] = []
+// Java script, defines array as an integer array
+let intersection : number[] = []
 // originate empty path taken
 let path : number[] = []
 let first_move_done = false
@@ -310,16 +314,16 @@ let magnet_count = 1
 while (magnet_count < 3) {
     mag = magnet_detect()
     // magnet found
-    if (mag >= 250) {
+    if (mag == 1) {
+        magnet_count += 1
         CutebotPro.singleHeadlights(CutebotProRGBLight.RGBL, 0, 255, 0)
         CutebotPro.singleHeadlights(CutebotProRGBLight.RGBR, 0, 255, 0)
-        magnet_count += 1
-        // magnet inside maze located
-        if (magnet_count == 2) {
-            path.push(4)
-            basic.showNumber(4)
-        }
-        
+    }
+    
+    // magnet inside maze located
+    if (magnet_count == 2) {
+        path.push(4)
+        basic.showNumber(4)
     }
     
     // end mazed navigation
@@ -332,38 +336,82 @@ while (magnet_count < 3) {
         turn_left()
         left = check_distance()
         basic.pause(100)
+        //  Face forward again
+        turn_right()
+        front = check_distance()
+        basic.pause(100)
+        //  Look right
+        turn_right()
+        right = check_distance()
+        basic.pause(100)
+        //  Maze Nav -- Depth first (left favoring)
+        if (left > 16 && front > 16 && right > 16) {
+            grid = 1
+            grid_type.push(grid)
+            intersection.push(grid_type.length)
+        } else if (left > 16 && front > 16) {
+            grid = 2
+            grid_type.push(grid)
+            intersection.push(grid_type.length)
+        } else if (left > 16 && right > 16) {
+            grid = 3
+            grid_type.push(grid)
+            intersection.push(grid_type.length)
+        } else if (front > 16 && right > 16) {
+            grid = 4
+            grid_type.push(grid)
+            intersection.push(grid_type.length)
+        } else if (left > 16) {
+            grid = 5
+            grid_type.push(grid)
+        } else if (front > 16) {
+            grid = 6
+            grid_type.push(grid)
+        } else if (right > 16) {
+            grid = 7
+            grid_type.push(grid)
+        } else {
+            grid = 8
+            grid_type.push(grid)
+        }
+        
+        //  Movement Decision
         if (left > 16) {
+            turn_left()
+            turn_left()
             move_forward()
             path.push(2)
             basic.showNumber(2)
+        } else if (front > 16) {
+            turn_left()
+            move_forward()
+            path.push(1)
+            basic.showNumber(1)
+        } else if (right > 16) {
+            move_forward()
+            path.push(3)
+            basic.showNumber(3)
         } else {
-            //  Look forward
+            //  Dead end
             turn_right()
-            front = check_distance()
-            basic.pause(100)
-            if (front > 16) {
-                move_forward()
-                path.push(1)
-                basic.showNumber(1)
-            } else {
-                //  Look right
-                turn_right()
-                right = check_distance()
-                basic.pause(100)
-                if (right > 16) {
+            path.push(0)
+            disp = path.length - intersection[-1] + 2
+            for (let i = 0; i < disp; i++) {
+                direct = path[-(i + 2)]
+                if (direct == 1) {
                     move_forward()
-                    path.push(3)
-                    basic.showNumber(3)
-                } else {
-                    //  Dead end
+                    basic.showNumber(1)
+                } else if (direct == 2) {
                     turn_right()
                     move_forward()
-                    path.push(0)
-                    basic.showNumber(0)
+                    basic.showNumber(3)
+                } else if (direct == 3) {
+                    turn_left()
+                    move_forward()
+                    basic.showNumber(2)
                 }
                 
             }
-            
         }
         
     }
