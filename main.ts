@@ -36,6 +36,16 @@ function missionImpossibleMusic(bpm: number) {
 }
 
 //  make music play in background
+function onIn_background() {
+    
+    music.setVolume(100)
+    while (end == 0) {
+        missionImpossibleMusic(350)
+        basic.pause(500)
+    }
+    
+}
+
 // # DIRECTION CORRECTION FUNCTIONS ##
 function straighten_to_line() {
     let speed: number;
@@ -176,7 +186,7 @@ function follow_line() {
 //  function for checking if wall is too close and backing up:
 function check_if_too_close() {
     let dist: number;
-    let sonar = CutebotPro.ultrasonic(SonarUnit.Centimeters)
+    let sonar = Math.abs(CutebotPro.ultrasonic(SonarUnit.Centimeters))
     if (sonar < 5) {
         // check what is too close
         //  move back a distance depending on how close
@@ -194,11 +204,13 @@ function check_distance(): number {
 
 function turn_left() {
     CutebotPro.trolleySteering(CutebotProTurn.LeftInPlace, 90)
+    // CutebotPro.trolley_speed_steering(50, CutebotProTurn.LEFT, 90)
     basic.pause(100)
 }
 
 function turn_right() {
     CutebotPro.trolleySteering(CutebotProTurn.RightInPlace, 90)
+    // CutebotPro.trolley_speed_steering(50, CutebotProTurn.RIGHT, 90)
     basic.pause(100)
 }
 
@@ -259,15 +271,7 @@ function total(bpm: number) {
 
 // ##### MAIN CODE ######
 let end = 0
-control.inBackground(function onIn_background() {
-    
-    music.setVolume(100)
-    while (end == 0) {
-        missionImpossibleMusic(350)
-        basic.pause(500)
-    }
-    
-})
+// control.in_background(onIn_background)
 // # LINE FOLLOWING
 // set variables
 let lwheel = 20

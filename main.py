@@ -172,7 +172,7 @@ def follow_line():
 
 # function for checking if wall is too close and backing up:
 def check_if_too_close():
-    sonar = CutebotPro.ultrasonic(SonarUnit.CENTIMETERS)
+    sonar = abs(CutebotPro.ultrasonic(SonarUnit.CENTIMETERS))
     if sonar < 5: #check what is too close
         # move back a distance depending on how close
         dist = 5-sonar
@@ -185,10 +185,13 @@ def check_distance():
 
 def turn_left():
     CutebotPro.trolley_steering(CutebotProTurn.LEFT_IN_PLACE, 90)
+    #CutebotPro.trolley_speed_steering(50, CutebotProTurn.LEFT, 90)
+
     basic.pause(100)
 
 def turn_right():
     CutebotPro.trolley_steering(CutebotProTurn.RIGHT_IN_PLACE, 90)
+    #CutebotPro.trolley_speed_steering(50, CutebotProTurn.RIGHT, 90)
     basic.pause(100)
 
 def move_forward():
@@ -261,7 +264,7 @@ def total(bpm):
    
 ###### MAIN CODE ######
 end = 0
-control.in_background(onIn_background)
+#control.in_background(onIn_background)
 
 ## LINE FOLLOWING
 #set variables
