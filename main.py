@@ -393,20 +393,21 @@ while magnet_count < 3:
             basic.show_number(0)
             displacement = (len(path) - intersection[len(intersection)-1]) 
             basic.show_number(displacement)
-            #go back to last intersection
-            for i in range(displacement - 1): # move one square less than the displacement
-                direct = path[len(path)-(i+2)]
-                if direct == 1:
-                    move_forward()
-                    basic.show_number(1)
-                elif direct == 2:
-                    move_forward()
-                    turn_right()
-                    basic.show_number(3)
-                elif direct == 3:
-                    move_forward()
-                    turn_left()
-                    basic.show_number(2)
+            if displacement != 1:
+                #go back to last intersection
+                for i in range(displacement - 1): # move one square less than the displacement
+                    direct = path[len(path)-(i+2)]
+                    if direct == 1:
+                        move_forward()
+                        basic.show_number(1)
+                    elif direct == 2:
+                        move_forward()
+                        turn_right()
+                        basic.show_number(3)
+                    elif direct == 3:
+                        move_forward()
+                        turn_left()
+                        basic.show_number(2)
             move_forward()
 
 # play celebration!!

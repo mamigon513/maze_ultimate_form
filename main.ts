@@ -393,24 +393,27 @@ while (magnet_count < 3) {
             basic.showNumber(0)
             displacement = path.length - intersection[intersection.length - 1]
             basic.showNumber(displacement)
-            // go back to last intersection
-            for (let i = 0; i < displacement - 1; i++) {
-                //  move one square less than the displacement
-                direct = path[path.length - (i + 2)]
-                if (direct == 1) {
-                    move_forward()
-                    basic.showNumber(1)
-                } else if (direct == 2) {
-                    move_forward()
-                    turn_right()
-                    basic.showNumber(3)
-                } else if (direct == 3) {
-                    move_forward()
-                    turn_left()
-                    basic.showNumber(2)
+            if (displacement != 1) {
+                // go back to last intersection
+                for (let i = 0; i < displacement - 1; i++) {
+                    //  move one square less than the displacement
+                    direct = path[path.length - (i + 2)]
+                    if (direct == 1) {
+                        move_forward()
+                        basic.showNumber(1)
+                    } else if (direct == 2) {
+                        move_forward()
+                        turn_right()
+                        basic.showNumber(3)
+                    } else if (direct == 3) {
+                        move_forward()
+                        turn_left()
+                        basic.showNumber(2)
+                    }
+                    
                 }
-                
             }
+            
             move_forward()
         }
         
