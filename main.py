@@ -332,8 +332,9 @@ while magnet_count < 3:
         basic.pause(100)
 
         # Look left
-        turn_left()
-        turn_left()
+       # turn_left()
+        #turn_left()
+        CutebotPro.trolley_steering(CutebotProTurn.LEFT_IN_PLACE, 180)
         left = check_distance()
         basic.pause(100)
 
@@ -380,8 +381,9 @@ while magnet_count < 3:
             basic.show_number(1)
 
         elif right > 16:
-            turn_right()
-            turn_right()
+            #turn_right()
+            #turn_right()
+            CutebotPro.trolley_steering(CutebotProTurn.RIGHT_IN_PLACE, 180)
             move_forward()
             path.append(3)
             basic.show_number(3)

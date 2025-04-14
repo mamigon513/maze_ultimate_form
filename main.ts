@@ -335,8 +335,9 @@ while (magnet_count < 3) {
         right = check_distance()
         basic.pause(100)
         //  Look left
-        turn_left()
-        turn_left()
+        //  turn_left()
+        // turn_left()
+        CutebotPro.trolleySteering(CutebotProTurn.LeftInPlace, 180)
         left = check_distance()
         basic.pause(100)
         //  Maze Nav -- Depth first (left favoring)
@@ -381,8 +382,9 @@ while (magnet_count < 3) {
             path.push(1)
             basic.showNumber(1)
         } else if (right > 16) {
-            turn_right()
-            turn_right()
+            // turn_right()
+            // turn_right()
+            CutebotPro.trolleySteering(CutebotProTurn.RightInPlace, 180)
             move_forward()
             path.push(3)
             basic.showNumber(3)
