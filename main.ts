@@ -186,8 +186,8 @@ function follow_line() {
     
     //  reset speed and headlights
     CutebotPro.turnOffAllHeadlights()
-    lwheel = 10
-    rwheel = 10
+    lwheel = 20
+    rwheel = 20
     CutebotPro.pwmCruiseControl(lwheel, rwheel)
     basic.pause(5)
 }
@@ -286,7 +286,7 @@ let end = 0
 let lwheel = 20
 let rwheel = 20
 let error = 0
-let maxturnspeed = 50
+let maxturnspeed = 70
 //  set starting speed
 CutebotPro.pwmCruiseControl(lwheel, rwheel)
 basic.pause(50)

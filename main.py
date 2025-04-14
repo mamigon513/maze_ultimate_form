@@ -167,8 +167,8 @@ def follow_line():
  
     # reset speed and headlights
     CutebotPro.turn_off_all_headlights()
-    lwheel = 10
-    rwheel = 10
+    lwheel = 20
+    rwheel = 20
  
     CutebotPro.pwm_cruise_control(lwheel, rwheel)
     basic.pause(5)
@@ -275,7 +275,7 @@ end = 0
 lwheel = 20
 rwheel = 20
 error = 0
-maxturnspeed = 50
+maxturnspeed = 70
 
 # set starting speed
 CutebotPro.pwm_cruise_control(lwheel, rwheel)
