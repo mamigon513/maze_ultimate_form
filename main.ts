@@ -36,12 +36,6 @@ function missionImpossibleMusic(bpm: number) {
 }
 
 //  make music play in background
-function onIn_background() {
-    music.setVolume(100)
-    missionImpossibleMusic(350)
-    
-}
-
 // # DIRECTION CORRECTION FUNCTIONS ##
 function straighten_to_line() {
     let speed: number;
@@ -264,7 +258,16 @@ function total(bpm: number) {
 }
 
 // ##### MAIN CODE ######
-// control.in_background(onIn_background)
+let end = 0
+control.inBackground(function onIn_background() {
+    
+    music.setVolume(100)
+    while (end == 0) {
+        missionImpossibleMusic(350)
+        basic.pause(500)
+    }
+    
+})
 // # LINE FOLLOWING
 // set variables
 let lwheel = 20
@@ -297,7 +300,9 @@ let magnet_count = 1
 while (magnet_count < 3) {
     mag = magnet_detect()
     // magnet found
-    if (mag >= 300) {
+    if (mag >= 250) {
+        CutebotPro.singleHeadlights(CutebotProRGBLight.RGBL, 0, 255, 0)
+        CutebotPro.singleHeadlights(CutebotProRGBLight.RGBR, 0, 255, 0)
         magnet_count += 1
         // magnet inside maze located
         if (magnet_count == 2) {
@@ -355,6 +360,8 @@ while (magnet_count < 3) {
     
 }
 //  play celebration!!
+end = 1
+music.stopAllSounds()
 total(130)
 //  send path to other robot:
 input.onButtonPressed(Button.A, function on_button_pressed_a() {

@@ -40,8 +40,11 @@ def missionImpossibleMusic(bpm):
 
 # make music play in background
 def onIn_background():
+    global end
     music.set_volume(100)
-    missionImpossibleMusic(350)
+    while end  ==  0:
+        missionImpossibleMusic(350)
+        basic.pause(500)
     pass
 
 ## DIRECTION CORRECTION FUNCTIONS ##
@@ -257,7 +260,8 @@ def total(bpm):
                     music.PlaybackMode.UNTIL_DONE)
    
 ###### MAIN CODE ######
-#control.in_background(onIn_background)
+end = 0
+control.in_background(onIn_background)
 
 ## LINE FOLLOWING
 #set variables
@@ -299,10 +303,12 @@ magnet_count = 1
 while magnet_count < 3:
     mag = magnet_detect()
     #magnet found
-    if mag >= 300:
-       magnet_count+=1
+    if mag >= 250:
+        CutebotPro.single_headlights(CutebotProRGBLight.RGBL, 0, 255, 0)
+        CutebotPro.single_headlights(CutebotProRGBLight.RGBR, 0, 255, 0)
+        magnet_count+=1
        #magnet inside maze located
-       if magnet_count == 2:
+        if magnet_count == 2:
            path.append(4)
            basic.show_number(4)
     
@@ -347,6 +353,8 @@ while magnet_count < 3:
                     basic.show_number(0)
 
 # play celebration!!
+end = 1
+music.stop_all_sounds()
 total(130)
 
 # send path to other robot:
