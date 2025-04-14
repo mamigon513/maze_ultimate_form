@@ -21,7 +21,7 @@ function magnet_detect(): number {
     return mag
 }
 
-// # BACKGROUND MUSIC
+// # BACKGROUND MUSIC FUNCTION ##
 function missionImpossibleMusic(bpm: number) {
     music.play(music.stringPlayable("G4 G4 - G4 G4 G4 Bb4 Bb4", bpm), music.PlaybackMode.UntilDone)
     music.play(music.stringPlayable("C5 C5 G4 G4 - G4 G4 G4", bpm), music.PlaybackMode.UntilDone)
@@ -42,7 +42,7 @@ function onIn_background() {
     
 }
 
-// # DIRECTION CORRECTION FUNCTIONS
+// # DIRECTION CORRECTION FUNCTIONS ##
 function straighten_to_line() {
     let speed: number;
     // keep counter to break while loop
@@ -119,6 +119,7 @@ function turn_l() {
     basic.pause(10)
 }
 
+// # Line Following Function ##
 function follow_line() {
     
     //  get the line offset
@@ -191,7 +192,7 @@ function check_if_too_close() {
     
 }
 
-// ##functions for turning and moving forward
+// functions for turning and moving forward
 function check_distance(): number {
     check_if_too_close()
     return CutebotPro.ultrasonic(SonarUnit.Centimeters)
@@ -217,9 +218,9 @@ function move_forward() {
     basic.pause(100)
 }
 
-// # TRANSMISSION
+// # TRANSMISSION FUNCTION ##
 //  Small delay for good transmission
-// # CELEBRATE
+// # CELEBRATE FUNCTION ##
 function total(bpm: number) {
     CutebotPro.pwmCruiseControl(0, 100)
     CutebotPro.colorLight(CutebotProRGBLight.RGBL, 0xff0000)
@@ -281,7 +282,7 @@ while (magnet_detect() == 0) {
 CutebotPro.pwmCruiseControl(0, 0)
 basic.pause(100)
 CutebotPro.turnOffAllHeadlights()
-// # START MAZE
+// # START MAZE ##
 //  be square with maze:
 CutebotPro.trolleySteering(CutebotProTurn.LeftInPlace, 90)
 CutebotPro.distanceRunning(CutebotProOrientation.Advance, 15.35, CutebotProDistanceUnits.Cm)

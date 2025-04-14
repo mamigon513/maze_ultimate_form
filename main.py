@@ -1,6 +1,6 @@
 ######FUNCTIONS######
-#magnet checking function
 
+#magnet checking function
 def magnet_detect():
     mag = 0
     magY = input.magnetic_force(Dimension.Y)
@@ -15,7 +15,7 @@ def magnet_detect():
         CutebotPro.color_light(CutebotProRGBLight.RGBR, 0x00ff00)
     return mag
 
-## BACKGROUND MUSIC
+## BACKGROUND MUSIC FUNCTION ##
 def missionImpossibleMusic(bpm):
     music.play(music.string_playable("G4 G4 - G4 G4 G4 Bb4 Bb4", bpm),
         music.PlaybackMode.UNTIL_DONE)
@@ -44,7 +44,7 @@ def onIn_background():
     missionImpossibleMusic(350)
     pass
 
-## DIRECTION CORRECTION FUNCTIONS
+## DIRECTION CORRECTION FUNCTIONS ##
 def straighten_to_line():
     #keep counter to break while loop
     count = 0
@@ -111,6 +111,7 @@ def turn_l():
      #delay 0.01 sec
     basic.pause(10)
 
+## Line Following Function ##
 def follow_line():
     global lwheel, rwheel, error
  
@@ -165,7 +166,8 @@ def follow_line():
     CutebotPro.pwm_cruise_control(lwheel, rwheel)
     basic.pause(5)
 
-    # function for checking if wall is too close and backing up:
+
+# function for checking if wall is too close and backing up:
 def check_if_too_close():
     sonar = CutebotPro.ultrasonic(SonarUnit.CENTIMETERS)
     if sonar < 5: #check what is too close
@@ -173,7 +175,7 @@ def check_if_too_close():
         dist = 5-sonar
         CutebotPro.distance_running(CutebotProOrientation.RETREAT, dist, CutebotProDistanceUnits.CM)
 
-###functions for turning and moving forward
+#functions for turning and moving forward
 def check_distance():
     check_if_too_close()
     return CutebotPro.ultrasonic(SonarUnit.CENTIMETERS)
@@ -194,14 +196,14 @@ def move_forward():
     CutebotPro.distance_running(CutebotProOrientation.ADVANCE, 15.35, CutebotProDistanceUnits.CM)
     basic.pause(100)
 
-## TRANSMISSION
+## TRANSMISSION FUNCTION ##
 def on_button_pressed_a():
     basic.pause(1000)
     for i in range(len(path)):
         radio.send_value("step", path[i])
         basic.pause(700)  # Small delay for good transmission
 
-## CELEBRATE
+## CELEBRATE FUNCTION ##
 def total(bpm):
    CutebotPro.pwm_cruise_control(0,100)
    CutebotPro.color_light(CutebotProRGBLight.RGBL, 0xff0000)
@@ -278,7 +280,7 @@ basic.pause(100)
 CutebotPro.turn_off_all_headlights()
 
 
-## START MAZE
+## START MAZE ##
 # be square with maze:
 CutebotPro.trolley_steering(CutebotProTurn.LEFT_IN_PLACE, 90)
 CutebotPro.distance_running(CutebotProOrientation.ADVANCE, 15.35, CutebotProDistanceUnits.CM)
@@ -286,7 +288,6 @@ CutebotPro.distance_running(CutebotProOrientation.ADVANCE, 15.35, CutebotProDist
 
 #grid_type: List[number] = [] #Java script, defines array as an integer array
 #intersection: List[number] = []
-
 
 #originate empty path taken
 path: List[number] = []
