@@ -331,7 +331,7 @@ while magnet_count < 3:
         turn_right()
         right = check_distance()
         basic.pause(100)
-
+        
         # Look left
         turn_left()
         turn_left()
@@ -342,7 +342,7 @@ while magnet_count < 3:
         if left>disp and front>disp and right>disp:
             grid = 1
             grid_type.append(grid)
-            intersection.append(len(grid_type))
+            intersection.append(len(grid_type)) #note where intersections occur
         elif left > disp and front > disp:
             grid = 2
             grid_type.append(grid)

@@ -346,6 +346,7 @@ while (magnet_count < 3) {
             grid_type.push(grid)
             intersection.push(grid_type.length)
         } else if (left > disp && front > disp) {
+            // note where intersections occur
             grid = 2
             grid_type.push(grid)
             intersection.push(grid_type.length)
