@@ -238,8 +238,13 @@ def move_forward():
 ## TRANSMISSION FUNCTION ##
 def on_button_pressed_a():
     basic.pause(1000)
+    int_count = 0
     for i in range(len(path)):
         radio.send_value("step", path[i])
+        if path[i] == 0:
+            val = disp_array[int_count]
+            radio.send_value("int",val)
+            int_count+=1
         basic.pause(700)  # Small delay for good transmission
 
 ## CELEBRATE FUNCTION ##
@@ -306,6 +311,7 @@ rwheel = 20
 error = 0
 maxturnspeed = 70
 disp = 20
+disp_array: List[number] = [] #Java script, defines array as an integer array
 
 # set starting speed
 CutebotPro.pwm_cruise_control(lwheel, rwheel)
@@ -424,6 +430,7 @@ while magnet_count < 2:
             path.append(0)
             basic.show_number(0)
             displacement = (len(path) - intersection[len(intersection)-1])
+            disp_array.append(displacement)
             basic.show_number(displacement)
             dead_end(displacement)
 
@@ -512,6 +519,7 @@ while magnet_count < 3:
             path.append(0)
             basic.show_number(0)
             displacement = (len(path) - intersection[len(intersection)-1]-1)
+            disp_array.append(displacement)
             basic.show_number(displacement)
             dead_end(displacement)
 

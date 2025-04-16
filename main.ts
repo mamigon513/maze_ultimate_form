@@ -331,6 +331,8 @@ let rwheel = 20
 let error = 0
 let maxturnspeed = 70
 let disp = 20
+let disp_array : number[] = []
+// Java script, defines array as an integer array
 //  set starting speed
 CutebotPro.pwmCruiseControl(lwheel, rwheel)
 basic.pause(50)
@@ -437,6 +439,7 @@ while (magnet_count < 2) {
             path.push(0)
             basic.showNumber(0)
             displacement = path.length - intersection[intersection.length - 1]
+            disp_array.push(displacement)
             basic.showNumber(displacement)
             dead_end(displacement)
         }
@@ -523,6 +526,7 @@ while (magnet_count < 3) {
             path.push(0)
             basic.showNumber(0)
             displacement = path.length - intersection[intersection.length - 1] - 1
+            disp_array.push(displacement)
             basic.showNumber(displacement)
             dead_end(displacement)
         }
@@ -536,9 +540,17 @@ music.stopAllSounds()
 total(130)
 //  send path to other robot:
 input.onButtonPressed(Button.A, function on_button_pressed_a() {
+    let val: number;
     basic.pause(1000)
+    let int_count = 0
     for (let i = 0; i < path.length; i++) {
         radio.sendValue("step", path[i])
+        if (path[i] == 0) {
+            val = disp_array[int_count]
+            radio.sendValue("int", val)
+            int_count += 1
+        }
+        
         basic.pause(700)
     }
 })
