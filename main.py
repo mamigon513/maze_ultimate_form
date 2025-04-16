@@ -320,7 +320,7 @@ lwheel = 20
 rwheel = 20
 error = 0
 maxturnspeed = 70
-disp = 20
+disp = 25
 disp_array: List[number] = [] #Java script, defines array as an integer array
 
 # set starting speed

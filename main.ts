@@ -338,7 +338,7 @@ let lwheel = 20
 let rwheel = 20
 let error = 0
 let maxturnspeed = 70
-let disp = 20
+let disp = 25
 let disp_array : number[] = []
 // Java script, defines array as an integer array
 //  set starting speed
