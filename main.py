@@ -510,8 +510,8 @@ while magnet_count < 3:
         # Movement Decision
         if right > disp:
             move_forward()
-            path.append(2)
-            basic.show_number(2)
+            path.append(3)
+            basic.show_number(3)
 
         elif front > disp:
             turn_left()
@@ -523,8 +523,8 @@ while magnet_count < 3:
             turn_left()
             turn_left()
             move_forward()
-            path.append(3)
-            basic.show_number(3)
+            path.append(2)
+            basic.show_number(2)
 
         else:
             # Dead end

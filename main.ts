@@ -518,8 +518,8 @@ while (magnet_count < 3) {
         //  Movement Decision
         if (right > disp) {
             move_forward()
-            path.push(2)
-            basic.showNumber(2)
+            path.push(3)
+            basic.showNumber(3)
         } else if (front > disp) {
             turn_left()
             move_forward()
@@ -529,8 +529,8 @@ while (magnet_count < 3) {
             turn_left()
             turn_left()
             move_forward()
-            path.push(3)
-            basic.showNumber(3)
+            path.push(2)
+            basic.showNumber(2)
         } else {
             //  Dead end
             turn_right()
