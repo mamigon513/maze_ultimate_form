@@ -344,8 +344,9 @@ basic.pause(100)
 CutebotPro.turnOffAllHeadlights()
 // # START MAZE ##
 //  be square with maze:
-CutebotPro.trolleySteering(CutebotProTurn.LeftInPlace, 90)
+CutebotPro.trolleySteering(CutebotProTurn.RightInPlace, 90)
 CutebotPro.distanceRunning(CutebotProOrientation.Advance, 5, CutebotProDistanceUnits.Cm)
+CutebotPro.trolleySteering(CutebotProTurn.LeftInPlace, 90)
 move_forward()
 // CutebotPro.distance_running(CutebotProOrientation.ADVANCE, 15.35, CutebotProDistanceUnits.CM)
 let grid_type : number[] = []

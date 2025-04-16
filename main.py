@@ -324,8 +324,9 @@ CutebotPro.turn_off_all_headlights()
 ## START MAZE ##
 # be square with maze:
 
-CutebotPro.trolley_steering(CutebotProTurn.LEFT_IN_PLACE, 90)
+CutebotPro.trolley_steering(CutebotProTurn.RIGHT_IN_PLACE, 90)
 CutebotPro.distance_running(CutebotProOrientation.ADVANCE, 5, CutebotProDistanceUnits.CM)
+CutebotPro.trolley_steering(CutebotProTurn.LEFT_IN_PLACE, 90)
 move_forward()
 #CutebotPro.distance_running(CutebotProOrientation.ADVANCE, 15.35, CutebotProDistanceUnits.CM)
 
