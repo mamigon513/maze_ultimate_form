@@ -81,7 +81,7 @@ function straighten_to_line() {
     // keep counter to break while loop
     let count = 0
     let error = CutebotPro.getOffset()
-    //  -1 is right 1 is left
+    //  -1 is left 1 is right
     // which wheel to pivot
     let wheel = error / Math.abs(error)
     //  turn on headlights(pink = 247, 25, 236)
@@ -99,10 +99,10 @@ function straighten_to_line() {
         if (error > 0) {
             // turn on right headlight(blue = 51, 255, 252)
             CutebotPro.singleHeadlights(CutebotProRGBLight.RGBR, 51, 255, 252)
-            if (wheel == -1) {
+            if (wheel == 1) {
                 // pivot right wheel
                 CutebotPro.pwmCruiseControl(speed, 0)
-            } else if (wheel == 1) {
+            } else if (wheel == -1) {
                 //  pivot left wheel
                 CutebotPro.pwmCruiseControl(0, speed)
             }
@@ -112,10 +112,10 @@ function straighten_to_line() {
             //  turn left
             // turn on left headlight(blue = 51, 255, 252)
             CutebotPro.singleHeadlights(CutebotProRGBLight.RGBL, 51, 255, 252)
-            if (wheel == -1) {
+            if (wheel == 1) {
                 // pivot right wheel
                 CutebotPro.pwmCruiseControl(speed * -1, 0)
-            } else if (wheel == 1) {
+            } else if (wheel == -1) {
                 // pivot left wheel
                 CutebotPro.pwmCruiseControl(0, speed * -1)
             }
