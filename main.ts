@@ -68,16 +68,6 @@ function missionImpossibleMusic(bpm: number) {
 }
 
 //  make music play in background
-function onIn_background() {
-    
-    music.setVolume(100)
-    while (end == 0) {
-        missionImpossibleMusic(350)
-        basic.pause(500)
-    }
-    
-}
-
 // # DIRECTION CORRECTION FUNCTIONS ##
 function straighten_to_line() {
     let speed: number;
@@ -331,7 +321,15 @@ function total(bpm: number) {
 
 // ##### MAIN CODE ######
 let end = 0
-// control.in_background(onIn_background)
+control.inBackground(function onIn_background() {
+    
+    music.setVolume(75)
+    while (end == 0) {
+        missionImpossibleMusic(350)
+        basic.pause(500)
+    }
+    
+})
 // # LINE FOLLOWING
 // set variables
 let lwheel = 20

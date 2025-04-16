@@ -64,7 +64,7 @@ def missionImpossibleMusic(bpm):
 # make music play in background
 def onIn_background():
     global end
-    music.set_volume(100)
+    music.set_volume(75)
     while end  ==  0:
         missionImpossibleMusic(350)
         basic.pause(500)
@@ -312,7 +312,7 @@ def total(bpm):
    
 ###### MAIN CODE ######
 end = 0
-#control.in_background(onIn_background)
+control.in_background(onIn_background)
 
 ## LINE FOLLOWING
 #set variables
