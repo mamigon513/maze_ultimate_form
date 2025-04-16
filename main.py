@@ -357,6 +357,9 @@ while magnet_count < 2:
         basic.show_number(4)
         turn_right()
         turn_right()
+        move_forward()
+        path.append(1)
+        basic.show_number(1)
 
     #continue maze navigation
     else:

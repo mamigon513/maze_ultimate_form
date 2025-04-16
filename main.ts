@@ -371,6 +371,9 @@ while (magnet_count < 2) {
         basic.showNumber(4)
         turn_right()
         turn_right()
+        move_forward()
+        path.push(1)
+        basic.showNumber(1)
     } else {
         // continue maze navigation
         // Check forward 
