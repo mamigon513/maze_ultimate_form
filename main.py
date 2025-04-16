@@ -552,4 +552,4 @@ CutebotPro.pwm_cruise_control(0, 0)
 
 # send path to other robot:
 input.on_button_pressed(Button.A, on_button_pressed_a)
-radio.set_group(1)
+radio.set_group(10)

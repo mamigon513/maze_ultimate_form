@@ -569,4 +569,4 @@ input.onButtonPressed(Button.A, function on_button_pressed_a() {
         basic.pause(700)
     }
 })
-radio.setGroup(1)
+radio.setGroup(10)
