@@ -142,11 +142,13 @@ function detect_line(): number {
         //  check for magnet at exit
         if (magnet_detect(400) == 1 && magnet_count == 2) {
             magnet_count = 3
+            basic.pause(100)
+        } else {
+            basic.pause(100)
+            straighten_to_line()
+            line = 1
         }
         
-        basic.pause(100)
-        straighten_to_line()
-        line = 1
     }
     
     return line
