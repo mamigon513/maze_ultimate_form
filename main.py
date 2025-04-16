@@ -253,55 +253,60 @@ def on_button_pressed_a():
 
 ## CELEBRATE FUNCTION ##
 def total(bpm):
-   CutebotPro.pwm_cruise_control(0,100)
-   CutebotPro.color_light(CutebotProRGBLight.RGBL, 0xff0000)
-   CutebotPro.color_light(CutebotProRGBLight.RGBR, 0x7f00ff)
-   music.play(music.string_playable("C", bpm),
+    #orient out of maze
+    CutebotPro.pwm_cruise_control(100,100)
+    pause(1000)
+
+    for i in range(2):
+        CutebotPro.pwm_cruise_control(0,100)
+        CutebotPro.color_light(CutebotProRGBLight.RGBL, 0xff0000)
+        CutebotPro.color_light(CutebotProRGBLight.RGBR, 0x7f00ff)
+        music.play(music.string_playable("C", bpm),
                 music.PlaybackMode.UNTIL_DONE)
-   CutebotPro.color_light(CutebotProRGBLight.RGBL, 0xff8000)
-   CutebotPro.color_light(CutebotProRGBLight.RGBR, 0x007fff)
-   music.play(music.string_playable("C", bpm),
+        CutebotPro.color_light(CutebotProRGBLight.RGBL, 0xff8000)
+        CutebotPro.color_light(CutebotProRGBLight.RGBR, 0x007fff)
+        music.play(music.string_playable("C", bpm),
                     music.PlaybackMode.UNTIL_DONE)
-   CutebotPro.color_light(CutebotProRGBLight.RGBL, 0xffff00)
-   CutebotPro.color_light(CutebotProRGBLight.RGBR, 0x00ff00)
-   music.play(music.string_playable("C", bpm),
+        CutebotPro.color_light(CutebotProRGBLight.RGBL, 0xffff00)
+        CutebotPro.color_light(CutebotProRGBLight.RGBR, 0x00ff00)
+        music.play(music.string_playable("C", bpm),
                     music.PlaybackMode.UNTIL_DONE)
-   CutebotPro.pwm_cruise_control(100,0)
-   CutebotPro.color_light(CutebotProRGBLight.RGBL, 0x00ff00)
-   CutebotPro.color_light(CutebotProRGBLight.RGBR, 0xffff00)
-   music.play(music.string_playable("C", bpm*2),
+        CutebotPro.pwm_cruise_control(100,0)
+        CutebotPro.color_light(CutebotProRGBLight.RGBL, 0x00ff00)
+        CutebotPro.color_light(CutebotProRGBLight.RGBR, 0xffff00)
+        music.play(music.string_playable("C", bpm*2),
                     music.PlaybackMode.UNTIL_DONE)
-   CutebotPro.color_light(CutebotProRGBLight.RGBL, 0x00ffff)
-   CutebotPro.color_light(CutebotProRGBLight.RGBR, 0xff8000)
-   music.play(music.string_playable("C5", bpm*2),
+        CutebotPro.color_light(CutebotProRGBLight.RGBL, 0x00ffff)
+        CutebotPro.color_light(CutebotProRGBLight.RGBR, 0xff8000)
+        music.play(music.string_playable("C5", bpm*2),
                     music.PlaybackMode.UNTIL_DONE)
-   CutebotPro.color_light(CutebotProRGBLight.RGBL, 0x007fff)
-   CutebotPro.color_light(CutebotProRGBLight.RGBR, 0xff0000)
-   music.play(music.string_playable("F", bpm),
+        CutebotPro.color_light(CutebotProRGBLight.RGBL, 0x007fff)
+        CutebotPro.color_light(CutebotProRGBLight.RGBR, 0xff0000)
+        music.play(music.string_playable("F", bpm),
                     music.PlaybackMode.UNTIL_DONE)
-   CutebotPro.color_light(CutebotProRGBLight.RGBL, 0x7f00ff)
-   CutebotPro.color_light(CutebotProRGBLight.RGBR, 0xff00ff)
-   music.play(music.string_playable("F", bpm),
+        CutebotPro.color_light(CutebotProRGBLight.RGBL, 0x7f00ff)
+        CutebotPro.color_light(CutebotProRGBLight.RGBR, 0xff00ff)
+        music.play(music.string_playable("F", bpm),
                     music.PlaybackMode.UNTIL_DONE)
-   CutebotPro.color_light(CutebotProRGBLight.RGBL, 0xff00ff)
-   CutebotPro.color_light(CutebotProRGBLight.RGBR, 0x00ff00)
-   CutebotPro.pwm_cruise_control(0,100)
-   music.play(music.string_playable("E", bpm*2),
+        CutebotPro.color_light(CutebotProRGBLight.RGBL, 0xff00ff)
+        CutebotPro.color_light(CutebotProRGBLight.RGBR, 0x00ff00)
+        CutebotPro.pwm_cruise_control(0,100)
+        music.play(music.string_playable("E", bpm*2),
                     music.PlaybackMode.UNTIL_DONE)
-   CutebotPro.color_light(CutebotProRGBLight.RGBL, 0x00ff00)
-   CutebotPro.color_light(CutebotProRGBLight.RGBR, 0xff00ff)
-   CutebotPro.pwm_cruise_control(100,0)
-   music.play(music.string_playable("A", bpm*2),
+        CutebotPro.color_light(CutebotProRGBLight.RGBL, 0x00ff00)
+        CutebotPro.color_light(CutebotProRGBLight.RGBR, 0xff00ff)
+        CutebotPro.pwm_cruise_control(100,0)
+        music.play(music.string_playable("A", bpm*2),
                     music.PlaybackMode.UNTIL_DONE)
-   CutebotPro.color_light(CutebotProRGBLight.RGBL, 0xff00ff)
-   CutebotPro.color_light(CutebotProRGBLight.RGBR, 0x00ff00)
-   CutebotPro.pwm_cruise_control(0,100)
-   music.play(music.string_playable("E", bpm*2),
+        CutebotPro.color_light(CutebotProRGBLight.RGBL, 0xff00ff)
+        CutebotPro.color_light(CutebotProRGBLight.RGBR, 0x00ff00)
+        CutebotPro.pwm_cruise_control(0,100)
+        music.play(music.string_playable("E", bpm*2),
                     music.PlaybackMode.UNTIL_DONE)
-   CutebotPro.color_light(CutebotProRGBLight.RGBL, 0x00ff00)
-   CutebotPro.color_light(CutebotProRGBLight.RGBR, 0xff00ff)
-   CutebotPro.pwm_cruise_control(100,0)
-   music.play(music.string_playable("A", bpm*2),
+        CutebotPro.color_light(CutebotProRGBLight.RGBL, 0x00ff00)
+        CutebotPro.color_light(CutebotProRGBLight.RGBR, 0xff00ff)
+        CutebotPro.pwm_cruise_control(100,0)
+        music.play(music.string_playable("A", bpm*2),
                     music.PlaybackMode.UNTIL_DONE)
    
 ###### MAIN CODE ######
@@ -538,6 +543,10 @@ while magnet_count < 3:
 end = 1
 music.stop_all_sounds()
 total(130)
+music.stop_all_sounds()
+CutebotPro.color_light(CutebotProRGBLight.RGBL, 0x000000)
+CutebotPro.color_light(CutebotProRGBLight.RGBR, 0x000000)
+
 
 # send path to other robot:
 input.on_button_pressed(Button.A, on_button_pressed_a)
