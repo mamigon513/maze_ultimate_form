@@ -316,19 +316,15 @@ path: List[number] = []
 magnet_count = 1
 
 #maze navigation before exit magnet is located
-while magnet_count < 3:
+while magnet_count < 2:
     mag = magnet_detect()
     #magnet found
     if mag == 1:
         magnet_count+=1
         #magnet inside maze located  
-        if magnet_count == 2:
+    if magnet_count == 2:
             path.append(4)
             basic.show_number(4)
-
-    #end maze navigation
-    if magnet_count == 3:
-        led.plot(0, 0)
 
     #continue maze navigation
     else:
@@ -421,6 +417,12 @@ while magnet_count < 3:
                         turn_left()
                         basic.show_number(2)
             move_forward()
+
+
+#end maze navigation
+if magnet_count == 3:
+    led.plot(0, 0)
+
 
 # play celebration!!
 end = 1

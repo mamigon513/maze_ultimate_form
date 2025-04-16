@@ -327,22 +327,17 @@ let intersection : number[] = []
 let path : number[] = []
 let magnet_count = 1
 // maze navigation before exit magnet is located
-while (magnet_count < 3) {
+while (magnet_count < 2) {
     mag = magnet_detect()
     // magnet found
     if (mag == 1) {
         magnet_count += 1
-        // magnet inside maze located  
-        if (magnet_count == 2) {
-            path.push(4)
-            basic.showNumber(4)
-        }
-        
     }
     
-    // end maze navigation
-    if (magnet_count == 3) {
-        led.plot(0, 0)
+    // magnet inside maze located  
+    if (magnet_count == 2) {
+        path.push(4)
+        basic.showNumber(4)
     } else {
         // continue maze navigation
         // Check forward 
@@ -443,6 +438,11 @@ while (magnet_count < 3) {
     }
     
 }
+// end maze navigation
+if (magnet_count == 3) {
+    led.plot(0, 0)
+}
+
 //  play celebration!!
 end = 1
 music.stopAllSounds()
