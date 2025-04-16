@@ -291,22 +291,22 @@ def total(bpm):
                     music.PlaybackMode.UNTIL_DONE)
         CutebotPro.color_light(CutebotProRGBLight.RGBL, 0xff00ff)
         CutebotPro.color_light(CutebotProRGBLight.RGBR, 0x00ff00)
-        CutebotPro.pwm_cruise_control(0,100)
+        CutebotPro.pwm_cruise_control(0,50)
         music.play(music.string_playable("E", bpm*2),
                     music.PlaybackMode.UNTIL_DONE)
         CutebotPro.color_light(CutebotProRGBLight.RGBL, 0x00ff00)
         CutebotPro.color_light(CutebotProRGBLight.RGBR, 0xff00ff)
-        CutebotPro.pwm_cruise_control(100,0)
+        CutebotPro.pwm_cruise_control(50,0)
         music.play(music.string_playable("A", bpm*2),
                     music.PlaybackMode.UNTIL_DONE)
         CutebotPro.color_light(CutebotProRGBLight.RGBL, 0xff00ff)
         CutebotPro.color_light(CutebotProRGBLight.RGBR, 0x00ff00)
-        CutebotPro.pwm_cruise_control(0,100)
+        CutebotPro.pwm_cruise_control(0,50)
         music.play(music.string_playable("E", bpm*2),
                     music.PlaybackMode.UNTIL_DONE)
         CutebotPro.color_light(CutebotProRGBLight.RGBL, 0x00ff00)
         CutebotPro.color_light(CutebotProRGBLight.RGBR, 0xff00ff)
-        CutebotPro.pwm_cruise_control(100,0)
+        CutebotPro.pwm_cruise_control(50,0)
         music.play(music.string_playable("A", bpm*2),
                     music.PlaybackMode.UNTIL_DONE)
    
@@ -547,6 +547,7 @@ total(130)
 music.stop_all_sounds()
 CutebotPro.color_light(CutebotProRGBLight.RGBL, 0x000000)
 CutebotPro.color_light(CutebotProRGBLight.RGBR, 0x000000)
+CutebotPro.pwm_cruise_control(0, 0)
 
 
 # send path to other robot:

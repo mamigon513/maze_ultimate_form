@@ -312,19 +312,19 @@ function total(bpm: number) {
         music.play(music.stringPlayable("F", bpm), music.PlaybackMode.UntilDone)
         CutebotPro.colorLight(CutebotProRGBLight.RGBL, 0xff00ff)
         CutebotPro.colorLight(CutebotProRGBLight.RGBR, 0x00ff00)
-        CutebotPro.pwmCruiseControl(0, 100)
+        CutebotPro.pwmCruiseControl(0, 50)
         music.play(music.stringPlayable("E", bpm * 2), music.PlaybackMode.UntilDone)
         CutebotPro.colorLight(CutebotProRGBLight.RGBL, 0x00ff00)
         CutebotPro.colorLight(CutebotProRGBLight.RGBR, 0xff00ff)
-        CutebotPro.pwmCruiseControl(100, 0)
+        CutebotPro.pwmCruiseControl(50, 0)
         music.play(music.stringPlayable("A", bpm * 2), music.PlaybackMode.UntilDone)
         CutebotPro.colorLight(CutebotProRGBLight.RGBL, 0xff00ff)
         CutebotPro.colorLight(CutebotProRGBLight.RGBR, 0x00ff00)
-        CutebotPro.pwmCruiseControl(0, 100)
+        CutebotPro.pwmCruiseControl(0, 50)
         music.play(music.stringPlayable("E", bpm * 2), music.PlaybackMode.UntilDone)
         CutebotPro.colorLight(CutebotProRGBLight.RGBL, 0x00ff00)
         CutebotPro.colorLight(CutebotProRGBLight.RGBR, 0xff00ff)
-        CutebotPro.pwmCruiseControl(100, 0)
+        CutebotPro.pwmCruiseControl(50, 0)
         music.play(music.stringPlayable("A", bpm * 2), music.PlaybackMode.UntilDone)
     }
 }
@@ -552,6 +552,7 @@ total(130)
 music.stopAllSounds()
 CutebotPro.colorLight(CutebotProRGBLight.RGBL, 0x000000)
 CutebotPro.colorLight(CutebotProRGBLight.RGBR, 0x000000)
+CutebotPro.pwmCruiseControl(0, 0)
 //  send path to other robot:
 input.onButtonPressed(Button.A, function on_button_pressed_a() {
     let val: number;
