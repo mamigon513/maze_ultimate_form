@@ -335,7 +335,7 @@ path: List[number] = []
 
 magnet_count = 1
 
-#maze navigation before exit magnet is located
+#maze navigation before magnet is located
 while magnet_count < 2:
     mag = magnet_detect()
     #magnet found
