@@ -6,14 +6,14 @@ let grid: number;
 let displacement: number;
 // #####FUNCTIONS######
 // magnet checking function (return 1/0 for true/false)
-function magnet_detect(): number {
+function magnet_detect(thresh: number): number {
     let mag = 0
     let magY = input.magneticForce(Dimension.Y)
     let magX = input.magneticForce(Dimension.X)
     let magZ = input.magneticForce(Dimension.Z)
     //  take the distance so you can sense in any direction
     let force = Math.pow(magX * magX + magY * magY + magZ * magZ, .5)
-    if (force >= 400) {
+    if (force >= thresh) {
         mag = 1
         //  turn headlights green
         CutebotPro.colorLight(CutebotProRGBLight.RGBL, 0x00ff00)
@@ -140,7 +140,7 @@ function detect_line(): number {
     if (Math.abs(error) < 3000) {
         CutebotPro.pwmCruiseControl(0, 0)
         //  check for magnet at exit
-        if (magnet_detect() == 1 && magnet_count == 2) {
+        if (magnet_detect(400) == 1 && magnet_count == 2) {
             magnet_count = 3
         }
         
@@ -337,7 +337,7 @@ let disp_array : number[] = []
 CutebotPro.pwmCruiseControl(lwheel, rwheel)
 basic.pause(50)
 // Run line follow till magnet detected then stop
-while (magnet_detect() == 0) {
+while (magnet_detect(500) == 0) {
     follow_line()
 }
 // stop robot
@@ -346,11 +346,11 @@ basic.pause(100)
 CutebotPro.turnOffAllHeadlights()
 // # START MAZE ##
 //  be square with maze:
-CutebotPro.trolleySteering(CutebotProTurn.RightInPlace, 90)
-CutebotPro.distanceRunning(CutebotProOrientation.Advance, 5, CutebotProDistanceUnits.Cm)
+// CutebotPro.trolley_steering(CutebotProTurn.RIGHT_IN_PLACE, 90)
+// CutebotPro.distance_running(CutebotProOrientation.ADVANCE, 5, CutebotProDistanceUnits.CM)
 CutebotPro.trolleySteering(CutebotProTurn.LeftInPlace, 90)
-move_forward()
-// CutebotPro.distance_running(CutebotProOrientation.ADVANCE, 15.35, CutebotProDistanceUnits.CM)
+// move_forward()
+CutebotPro.distanceRunning(CutebotProOrientation.Advance, 15.35, CutebotProDistanceUnits.Cm)
 let grid_type : number[] = []
 // Java script, defines array as an integer array
 let intersection : number[] = []
@@ -359,7 +359,7 @@ let path : number[] = []
 let magnet_count = 1
 // maze navigation before magnet is located
 while (magnet_count < 2) {
-    mag = magnet_detect()
+    mag = magnet_detect(400)
     // magnet found
     if (mag == 1) {
         magnet_count += 1
@@ -449,7 +449,7 @@ while (magnet_count < 2) {
 }
 // # EXITING MAZE ##
 while (magnet_count < 3) {
-    mag = magnet_detect()
+    mag = magnet_detect(200)
     // magnet found
     if (mag == 1) {
         magnet_count += 1
