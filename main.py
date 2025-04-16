@@ -312,7 +312,7 @@ def total(bpm):
    
 ###### MAIN CODE ######
 end = 0
-control.in_background(onIn_background)
+#control.in_background(onIn_background)
 
 ## LINE FOLLOWING
 #set variables
