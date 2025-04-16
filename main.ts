@@ -375,8 +375,8 @@ while (magnet_count < 2) {
     
     // magnet inside maze located  
     if (magnet_count == 2) {
-        path.push(4)
-        basic.showNumber(4)
+        path.push(5)
+        basic.showNumber(5)
         turn_right()
         turn_right()
         move_forward()
@@ -536,7 +536,7 @@ while (magnet_count < 3) {
             turn_right()
             path.push(0)
             basic.showNumber(0)
-            displacement = path.length - intersection[intersection.length - 1] - 1
+            displacement = path.length - intersection[intersection.length - 1] - 2
             disp_array.push(displacement)
             basic.showNumber(displacement)
             dead_end(displacement)
