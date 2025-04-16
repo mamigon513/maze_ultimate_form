@@ -450,7 +450,7 @@ while magnet_count < 2:
 
 ## EXITING MAZE ##
 while magnet_count < 3:
-    mag = magnet_detect(400)
+    mag = magnet_detect(150)
         #magnet found
 
     if mag == 1:
