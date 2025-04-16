@@ -82,7 +82,7 @@ def straighten_to_line():
     CutebotPro.single_headlights(CutebotProRGBLight.RGBL, 247, 25, 236)
     CutebotPro.single_headlights(CutebotProRGBLight.RGBR, 247, 25, 236)
     #keep turning till we are straight
-    while(abs(error) > 0 and count < 25):
+    while(abs(error) > 0 and count < 2):
         # update count of while loop iterations so we can prevent getting stuck
         count = count + 1
         #get offset

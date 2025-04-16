@@ -91,7 +91,7 @@ function straighten_to_line() {
     CutebotPro.singleHeadlights(CutebotProRGBLight.RGBL, 247, 25, 236)
     CutebotPro.singleHeadlights(CutebotProRGBLight.RGBR, 247, 25, 236)
     // keep turning till we are straight
-    while (Math.abs(error) > 0 && count < 25) {
+    while (Math.abs(error) > 0 && count < 2) {
         //  update count of while loop iterations so we can prevent getting stuck
         count = count + 1
         // get offset
