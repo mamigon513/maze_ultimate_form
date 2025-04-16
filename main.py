@@ -75,7 +75,7 @@ def straighten_to_line():
     # -1 is left 1 is right
     #which wheel to pivot
     wheel = error/abs(error)
-
+    last_error = 0
     # turn on headlights(pink = 247, 25, 236)
     CutebotPro.single_headlights(CutebotProRGBLight.RGBL, 247, 25, 236)
     CutebotPro.single_headlights(CutebotProRGBLight.RGBR, 247, 25, 236)
@@ -84,31 +84,33 @@ def straighten_to_line():
         # update count of while loop iterations so we can prevent getting stuck
         count = count + 1
         #get offset
+    
         error = CutebotPro.get_offset()
         # set turn speed
         speed = 50 + (abs(error)/3000)*50
-        # turn right
+        
         if error > 0:
             #turn on right headlight(blue = 51, 255, 252)
             CutebotPro.single_headlights(CutebotProRGBLight.RGBR, 51, 255, 252)
             if wheel == 1: #pivot right wheel
                 CutebotPro.pwm_cruise_control(speed, 0)
             elif wheel == -1: # pivot left wheel
-                CutebotPro.pwm_cruise_control(0, speed)
+                CutebotPro.pwm_cruise_control(0, speed*-1)
             basic.pause(30)
-        # turn left
+        
         elif error < 0:
             #turn on left headlight(blue = 51, 255, 252)
             CutebotPro.single_headlights(CutebotProRGBLight.RGBL, 51, 255, 252)
             if wheel == 1: #pivot right wheel
                 CutebotPro.pwm_cruise_control(speed*-1, 0)
             elif wheel == -1: #pivot left wheel
-                CutebotPro.pwm_cruise_control(0, speed*-1)
+                CutebotPro.pwm_cruise_control(0, speed)
             basic.pause(30)
         # turn off headlights
         CutebotPro.turn_off_all_headlights()
         CutebotPro.pwm_cruise_control(0, 0)
         basic.pause(50)
+        last_error = error
         error = CutebotPro.get_offset()
 
 def detect_line():

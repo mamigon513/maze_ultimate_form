@@ -84,6 +84,7 @@ function straighten_to_line() {
     //  -1 is left 1 is right
     // which wheel to pivot
     let wheel = error / Math.abs(error)
+    let last_error = 0
     //  turn on headlights(pink = 247, 25, 236)
     CutebotPro.singleHeadlights(CutebotProRGBLight.RGBL, 247, 25, 236)
     CutebotPro.singleHeadlights(CutebotProRGBLight.RGBR, 247, 25, 236)
@@ -95,7 +96,6 @@ function straighten_to_line() {
         error = CutebotPro.getOffset()
         //  set turn speed
         speed = 50 + Math.abs(error) / 3000 * 50
-        //  turn right
         if (error > 0) {
             // turn on right headlight(blue = 51, 255, 252)
             CutebotPro.singleHeadlights(CutebotProRGBLight.RGBR, 51, 255, 252)
@@ -104,12 +104,11 @@ function straighten_to_line() {
                 CutebotPro.pwmCruiseControl(speed, 0)
             } else if (wheel == -1) {
                 //  pivot left wheel
-                CutebotPro.pwmCruiseControl(0, speed)
+                CutebotPro.pwmCruiseControl(0, speed * -1)
             }
             
             basic.pause(30)
         } else if (error < 0) {
-            //  turn left
             // turn on left headlight(blue = 51, 255, 252)
             CutebotPro.singleHeadlights(CutebotProRGBLight.RGBL, 51, 255, 252)
             if (wheel == 1) {
@@ -117,7 +116,7 @@ function straighten_to_line() {
                 CutebotPro.pwmCruiseControl(speed * -1, 0)
             } else if (wheel == -1) {
                 // pivot left wheel
-                CutebotPro.pwmCruiseControl(0, speed * -1)
+                CutebotPro.pwmCruiseControl(0, speed)
             }
             
             basic.pause(30)
@@ -127,6 +126,7 @@ function straighten_to_line() {
         CutebotPro.turnOffAllHeadlights()
         CutebotPro.pwmCruiseControl(0, 0)
         basic.pause(50)
+        last_error = error
         error = CutebotPro.getOffset()
     }
 }
