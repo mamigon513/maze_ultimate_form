@@ -4,7 +4,6 @@ let right: number;
 let left: number;
 let grid: number;
 let displacement: number;
-let direct: number;
 // #####FUNCTIONS######
 // magnet checking function (return 1/0 for true/false)
 function magnet_detect(): number {
@@ -22,6 +21,33 @@ function magnet_detect(): number {
     }
     
     return mag
+}
+
+// # dead end function (depth-first search)
+function dead_end(displacement: number) {
+    let direct: number;
+    if (displacement != 1) {
+        // go back to last intersection
+        for (let i = 0; i < displacement - 1; i++) {
+            //  move one square less than the displacement
+            direct = path[path.length - (i + 2)]
+            if (direct == 1) {
+                move_forward()
+                basic.showNumber(1)
+            } else if (direct == 2) {
+                move_forward()
+                turn_right()
+                basic.showNumber(3)
+            } else if (direct == 3) {
+                move_forward()
+                turn_left()
+                basic.showNumber(2)
+            }
+            
+        }
+    }
+    
+    move_forward()
 }
 
 // # BACKGROUND MUSIC FUNCTION ##
@@ -338,6 +364,8 @@ while (magnet_count < 2) {
     if (magnet_count == 2) {
         path.push(4)
         basic.showNumber(4)
+        turn_right()
+        turn_right()
     } else {
         // continue maze navigation
         // Check forward 
@@ -406,43 +434,99 @@ while (magnet_count < 2) {
             path.push(0)
             basic.showNumber(0)
             displacement = path.length - intersection[intersection.length - 1]
-            if (magnet_count == 2) {
-                displacement = path.length - intersection[intersection.length - 1] - 1
-            }
-            
             basic.showNumber(displacement)
-            if (displacement != 1) {
-                // go back to last intersection
-                for (let i = 0; i < displacement - 1; i++) {
-                    //  move one square less than the displacement
-                    direct = path[path.length - (i + 2)]
-                    if (direct == 1) {
-                        move_forward()
-                        basic.showNumber(1)
-                    } else if (direct == 2) {
-                        move_forward()
-                        turn_right()
-                        basic.showNumber(3)
-                    } else if (direct == 3) {
-                        move_forward()
-                        turn_left()
-                        basic.showNumber(2)
-                    }
-                    
-                }
-            }
-            
-            move_forward()
+            dead_end(displacement)
         }
         
     }
     
 }
-// end maze navigation
-if (magnet_count == 3) {
-    led.plot(0, 0)
+// # EXITING MAZE ##
+while (magnet_count < 3) {
+    mag = magnet_detect()
+    // magnet found
+    if (mag == 1) {
+        magnet_count += 1
+    }
+    
+    // magnet inside maze located
+    // end maze navigation
+    if (magnet_count == 3) {
+        led.plot(0, 0)
+    } else {
+        // Check forward
+        front = check_distance()
+        basic.pause(100)
+        //  Look left
+        turn_left()
+        left = check_distance()
+        basic.pause(100)
+        //  Look right
+        turn_right()
+        turn_right()
+        right = check_distance()
+        basic.pause(100)
+        //  Maze Nav -- Depth first (left favoring)
+        if (left > disp && front > disp && right > disp) {
+            grid = 1
+            grid_type.push(grid)
+            intersection.push(grid_type.length)
+        } else if (left > disp && front > disp) {
+            // note where intersections occur
+            grid = 2
+            grid_type.push(grid)
+            intersection.push(grid_type.length)
+        } else if (left > disp && right > disp) {
+            grid = 3
+            grid_type.push(grid)
+            intersection.push(grid_type.length)
+        } else if (front > disp && right > disp) {
+            grid = 4
+            grid_type.push(grid)
+            intersection.push(grid_type.length)
+        } else if (left > disp) {
+            grid = 5
+            grid_type.push(grid)
+        } else if (front > disp) {
+            grid = 6
+            grid_type.push(grid)
+        } else if (right > disp) {
+            grid = 7
+            grid_type.push(grid)
+        } else {
+            grid = 8
+            grid_type.push(grid)
+        }
+        
+        //  Movement Decision
+        if (right > disp) {
+            move_forward()
+            path.push(2)
+            basic.showNumber(2)
+        } else if (front > disp) {
+            turn_left()
+            move_forward()
+            path.push(1)
+            basic.showNumber(1)
+        } else if (left > disp) {
+            turn_left()
+            turn_left()
+            move_forward()
+            path.push(3)
+            basic.showNumber(3)
+        } else {
+            //  Dead end
+            turn_right()
+            path.push(0)
+            basic.showNumber(0)
+            displacement = path.length - intersection[intersection.length - 1] - 1
+            basic.showNumber(displacement)
+            dead_end(displacement)
+        }
+        
+    }
+    
 }
-
 //  play celebration!!
 end = 1
 music.stopAllSounds()

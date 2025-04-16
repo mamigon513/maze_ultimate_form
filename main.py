@@ -15,6 +15,26 @@ def magnet_detect():
         CutebotPro.color_light(CutebotProRGBLight.RGBR, 0x00ff00)
     return mag
 
+## dead end function (depth-first search)
+def dead_end(displacement):
+    if displacement != 1:
+        #go back to last intersection
+        for i in range(displacement - 1): # move one square less than the displacement
+            direct = path[len(path)-(i+2)]
+            if direct == 1:
+                move_forward()
+                basic.show_number(1)
+            elif direct == 2:
+                move_forward()
+                turn_right()
+                basic.show_number(3)
+            elif direct == 3:
+                move_forward()
+                turn_left()
+                basic.show_number(2)
+    move_forward()
+
+
 ## BACKGROUND MUSIC FUNCTION ##
 def missionImpossibleMusic(bpm):
     music.play(music.string_playable("G4 G4 - G4 G4 G4 Bb4 Bb4", bpm),
@@ -323,8 +343,10 @@ while magnet_count < 2:
         magnet_count+=1
         #magnet inside maze located  
     if magnet_count == 2:
-            path.append(4)
-            basic.show_number(4)
+        path.append(4)
+        basic.show_number(4)
+        turn_right()
+        turn_right()
 
     #continue maze navigation
     else:
@@ -398,30 +420,99 @@ while magnet_count < 2:
             path.append(0)
             basic.show_number(0)
             displacement = (len(path) - intersection[len(intersection)-1])
-            if magnet_count == 2:
-                displacement = (len(path) - intersection[len(intersection)-1] - 1)
             basic.show_number(displacement)
-            if displacement != 1:
-                #go back to last intersection
-                for i in range(displacement - 1): # move one square less than the displacement
-                    direct = path[len(path)-(i+2)]
-                    if direct == 1:
-                        move_forward()
-                        basic.show_number(1)
-                    elif direct == 2:
-                        move_forward()
-                        turn_right()
-                        basic.show_number(3)
-                    elif direct == 3:
-                        move_forward()
-                        turn_left()
-                        basic.show_number(2)
+            dead_end(displacement)
+
+
+## EXITING MAZE ##
+while magnet_count < 3:
+    mag = magnet_detect()
+        #magnet found
+
+    if mag == 1:
+        magnet_count+=1
+        #magnet inside maze located
+
+    #end maze navigation
+    if magnet_count == 3:
+        led.plot(0, 0)
+
+    else:
+        #Check forward
+        front = check_distance()
+        basic.pause(100)
+
+        # Look left
+        turn_left()
+        left = check_distance()
+        basic.pause(100)
+        
+        # Look right
+        turn_right()
+        turn_right()
+        right = check_distance()
+        basic.pause(100)
+
+        # Maze Nav -- Depth first (left favoring)
+        if left>disp and front>disp and right>disp:
+            grid = 1
+            grid_type.append(grid)
+            intersection.append(len(grid_type)) #note where intersections occur
+        elif left > disp and front > disp:
+            grid = 2
+            grid_type.append(grid)
+            intersection.append(len(grid_type))
+        elif left > disp and right > disp:
+            grid = 3
+            grid_type.append(grid)
+            intersection.append(len(grid_type))
+        elif front > disp and right > disp:
+            grid = 4
+            grid_type.append(grid)
+            intersection.append(len(grid_type))
+        elif left > disp:
+            grid = 5
+            grid_type.append(grid)
+        elif front > disp:
+            grid = 6
+            grid_type.append(grid)
+        elif right > disp:
+            grid = 7
+            grid_type.append(grid)
+        else:
+            grid = 8
+            grid_type.append(grid)
+
+        # Movement Decision
+        if right > disp:
             move_forward()
+            path.append(2)
+            basic.show_number(2)
+
+        elif front > disp:
+            turn_left()
+            move_forward()
+            path.append(1)
+            basic.show_number(1)
+
+        elif left > disp:
+            turn_left()
+            turn_left()
+            move_forward()
+            path.append(3)
+            basic.show_number(3)
+
+        else:
+            # Dead end
+            turn_right()
+            path.append(0)
+            basic.show_number(0)
+            displacement = (len(path) - intersection[len(intersection)-1]-1)
+            basic.show_number(displacement)
+            dead_end(displacement)
 
 
-#end maze navigation
-if magnet_count == 3:
-    led.plot(0, 0)
+
 
 
 # play celebration!!
