@@ -345,7 +345,9 @@ CutebotPro.turnOffAllHeadlights()
 // # START MAZE ##
 //  be square with maze:
 CutebotPro.trolleySteering(CutebotProTurn.LeftInPlace, 90)
-CutebotPro.distanceRunning(CutebotProOrientation.Advance, 15.35, CutebotProDistanceUnits.Cm)
+CutebotPro.distanceRunning(CutebotProOrientation.Advance, 5, CutebotProDistanceUnits.Cm)
+move_forward()
+// CutebotPro.distance_running(CutebotProOrientation.ADVANCE, 15.35, CutebotProDistanceUnits.CM)
 let grid_type : number[] = []
 // Java script, defines array as an integer array
 let intersection : number[] = []
