@@ -13,6 +13,9 @@ def magnet_detect(thresh):
          # turn headlights green
         CutebotPro.color_light(CutebotProRGBLight.RGBL, 0x00ff00)
         CutebotPro.color_light(CutebotProRGBLight.RGBR, 0x00ff00)
+        # pause robot for 1 sec
+        CutebotPro.pwm_cruise_control(0, 0)
+        basic.pause(1000)
     return mag
 
 ## dead end function (depth-first search)
@@ -75,7 +78,6 @@ def straighten_to_line():
     # -1 is left 1 is right
     #which wheel to pivot
     wheel = error/abs(error)
-    last_error = 0
     # turn on headlights(pink = 247, 25, 236)
     CutebotPro.single_headlights(CutebotProRGBLight.RGBL, 247, 25, 236)
     CutebotPro.single_headlights(CutebotProRGBLight.RGBR, 247, 25, 236)
@@ -110,7 +112,6 @@ def straighten_to_line():
         CutebotPro.turn_off_all_headlights()
         CutebotPro.pwm_cruise_control(0, 0)
         basic.pause(50)
-        last_error = error
         error = CutebotPro.get_offset()
 
 def detect_line():
@@ -356,7 +357,7 @@ magnet_count = 1
 
 #maze navigation before magnet is located
 while magnet_count < 2:
-    mag = magnet_detect(400)
+    mag = magnet_detect(500)
     #magnet found
     if mag == 1:
         magnet_count+=1
@@ -449,7 +450,7 @@ while magnet_count < 2:
 
 ## EXITING MAZE ##
 while magnet_count < 3:
-    mag = magnet_detect(200)
+    mag = magnet_detect(400)
         #magnet found
 
     if mag == 1:

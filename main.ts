@@ -18,6 +18,9 @@ function magnet_detect(thresh: number): number {
         //  turn headlights green
         CutebotPro.colorLight(CutebotProRGBLight.RGBL, 0x00ff00)
         CutebotPro.colorLight(CutebotProRGBLight.RGBR, 0x00ff00)
+        //  pause robot for 1 sec
+        CutebotPro.pwmCruiseControl(0, 0)
+        basic.pause(1000)
     }
     
     return mag
@@ -84,7 +87,6 @@ function straighten_to_line() {
     //  -1 is left 1 is right
     // which wheel to pivot
     let wheel = error / Math.abs(error)
-    let last_error = 0
     //  turn on headlights(pink = 247, 25, 236)
     CutebotPro.singleHeadlights(CutebotProRGBLight.RGBL, 247, 25, 236)
     CutebotPro.singleHeadlights(CutebotProRGBLight.RGBR, 247, 25, 236)
@@ -126,7 +128,6 @@ function straighten_to_line() {
         CutebotPro.turnOffAllHeadlights()
         CutebotPro.pwmCruiseControl(0, 0)
         basic.pause(50)
-        last_error = error
         error = CutebotPro.getOffset()
     }
 }
@@ -366,7 +367,7 @@ let path : number[] = []
 let magnet_count = 1
 // maze navigation before magnet is located
 while (magnet_count < 2) {
-    mag = magnet_detect(400)
+    mag = magnet_detect(500)
     // magnet found
     if (mag == 1) {
         magnet_count += 1
@@ -459,7 +460,7 @@ while (magnet_count < 2) {
 }
 // # EXITING MAZE ##
 while (magnet_count < 3) {
-    mag = magnet_detect(200)
+    mag = magnet_detect(400)
     // magnet found
     if (mag == 1) {
         magnet_count += 1
