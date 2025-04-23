@@ -2,15 +2,18 @@
 
 #magnet checking function (return 1/0 for true/false)
 def magnet_detect(thresh):
+    # variable to determine if we detected a magnet (boolean)
     mag = 0
+    # find the magnitude in each direction:
     magY = input.magnetic_force(Dimension.Y)
     magX = input.magnetic_force(Dimension.X)
     magZ = input.magnetic_force(Dimension.Z)
     # take the distance so you can sense in any direction
     force = Math.pow((magX*magX + magY*magY + magZ*magZ), .5)
+    #magnet detected:
     if force >= thresh:
         mag = 1
-         # turn headlights green
+        # turn headlights green
         CutebotPro.color_light(CutebotProRGBLight.RGBL, 0x00ff00)
         CutebotPro.color_light(CutebotProRGBLight.RGBR, 0x00ff00)
         # pause robot for 1 sec

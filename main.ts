@@ -7,12 +7,15 @@ let displacement: number;
 // #####FUNCTIONS######
 // magnet checking function (return 1/0 for true/false)
 function magnet_detect(thresh: number): number {
+    //  variable to determine if we detected a magnet (boolean)
     let mag = 0
+    //  find the magnitude in each direction:
     let magY = input.magneticForce(Dimension.Y)
     let magX = input.magneticForce(Dimension.X)
     let magZ = input.magneticForce(Dimension.Z)
     //  take the distance so you can sense in any direction
     let force = Math.pow(magX * magX + magY * magY + magZ * magZ, .5)
+    // magnet detected:
     if (force >= thresh) {
         mag = 1
         //  turn headlights green
