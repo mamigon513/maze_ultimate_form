@@ -5,7 +5,7 @@ let left: number;
 let grid: number;
 let displacement: number;
 // #####FUNCTIONS######
-// magnet checking function (return 1/0 for true/false)
+// # magnet checking function (return 1/0 for true/false)
 function magnet_detect(thresh: number): number {
     //  variable to determine if we detected a magnet (boolean)
     let mag = 0
@@ -29,22 +29,26 @@ function magnet_detect(thresh: number): number {
     return mag
 }
 
-// # dead end function (depth-first search)
+// # dead end function (depth-first search, complexity pts)
 function dead_end(displacement: number) {
     let direct: number;
     if (displacement != 1) {
         // go back to last intersection
         for (let i = 0; i < displacement - 1; i++) {
-            //  move one square less than the displacement
+            // move one square less than the displacement
             direct = path[path.length - (i + 2)]
+            // read corresponding move that led to the dead end
+            // move based on previous directions that led from last intersection to dead end
             if (direct == 1) {
                 move_forward()
                 basic.showNumber(1)
             } else if (direct == 2) {
+                // left turn becomes a right turn
                 move_forward()
                 turn_right()
                 basic.showNumber(3)
             } else if (direct == 3) {
+                // right turn becomes a left turn
                 move_forward()
                 turn_left()
                 basic.showNumber(2)
@@ -56,7 +60,9 @@ function dead_end(displacement: number) {
     move_forward()
 }
 
-// # BACKGROUND MUSIC FUNCTION ##
+// automatically leave dead end square if disp=1, add one forward move to sequence if disp>1
+// # BACKGROUND MUSIC FUNCTIONS ## (creativity pts)
+// # music function
 function missionImpossibleMusic(bpm: number) {
     music.play(music.stringPlayable("G4 G4 - G4 G4 G4 Bb4 Bb4", bpm), music.PlaybackMode.UntilDone)
     music.play(music.stringPlayable("C5 C5 G4 G4 - G4 G4 G4", bpm), music.PlaybackMode.UntilDone)
@@ -70,18 +76,9 @@ function missionImpossibleMusic(bpm: number) {
     music.play(music.stringPlayable("Bb4 C5 - -", bpm), music.PlaybackMode.UntilDone)
 }
 
-//  make music play in background
-function onIn_background() {
-    
-    music.setVolume(75)
-    while (end == 0) {
-        missionImpossibleMusic(350)
-        basic.pause(500)
-    }
-    
-}
-
+// # music play in background function
 // # DIRECTION CORRECTION FUNCTIONS ##
+// # robot straightening function
 function straighten_to_line() {
     let speed: number;
     // keep counter to break while loop
@@ -135,6 +132,7 @@ function straighten_to_line() {
     }
 }
 
+// # black line detecing function
 function detect_line(): number {
     
     //  get the line tracking offset
@@ -158,7 +156,8 @@ function detect_line(): number {
     return line
 }
 
-// turns for line following
+// # LINE FOLLOWING FUNCTIONS ##
+// # right turn function
 function turn_r() {
     
     lwheel = lwheel + Math.abs(error) / 3000 * maxturnspeed
@@ -170,6 +169,7 @@ function turn_r() {
     basic.pause(10)
 }
 
+// # left turn function
 function turn_l() {
     
     lwheel = lwheel - Math.abs(error) / 3000 * maxturnspeed
@@ -181,7 +181,7 @@ function turn_l() {
     basic.pause(10)
 }
 
-// # Line Following Function ##
+// # main line following function
 function follow_line() {
     
     //  get the line offset
@@ -241,7 +241,8 @@ function follow_line() {
     basic.pause(5)
 }
 
-//  function for checking if wall is too close and backing up:
+// # PROXIMITY CORRECTION FUNCTIONS ##
+// # checking if wall is too close and backing up functions
 function check_if_too_close() {
     let dist: number;
     let sonar = Math.abs(CutebotPro.ultrasonic(SonarUnit.Centimeters))
@@ -254,24 +255,27 @@ function check_if_too_close() {
     
 }
 
-// functions for turning and moving forward
 function check_distance(): number {
     check_if_too_close()
     return CutebotPro.ultrasonic(SonarUnit.Centimeters)
 }
 
+// # MAZE MOVEMENT FUNCTIONS ##
+// # 90 degree left turn function
 function turn_left() {
     CutebotPro.trolleySteering(CutebotProTurn.LeftInPlace, 90)
     // CutebotPro.trolley_speed_steering(50, CutebotProTurn.LEFT, 90)
     basic.pause(100)
 }
 
+// # 90 degree right turn function
 function turn_right() {
     CutebotPro.trolleySteering(CutebotProTurn.RightInPlace, 90)
     // CutebotPro.trolley_speed_steering(50, CutebotProTurn.RIGHT, 90)
     basic.pause(100)
 }
 
+// # move forward function
 function move_forward() {
     CutebotPro.pwmCruiseControl(20, 20)
     let line_found = 0
@@ -334,8 +338,17 @@ function total(bpm: number) {
 
 // ##### MAIN CODE ######
 let end = 0
-// control.in_background(onIn_background)
-// # LINE FOLLOWING
+control.inBackground(function onIn_background() {
+    
+    music.setVolume(75)
+    while (end == 0) {
+        missionImpossibleMusic(350)
+        basic.pause(500)
+    }
+    
+})
+// runs mission impossible music
+// # LINE FOLLOWING ##
 // set variables
 let lwheel = 20
 let rwheel = 20
@@ -343,11 +356,11 @@ let error = 0
 let maxturnspeed = 70
 let disp = 25
 let disp_array : number[] = []
-// Java script, defines array as an integer array
-//  set starting speed
+// Java script, defines array as an integer array (this notation is used for all arrays)
+// set starting speed
 CutebotPro.pwmCruiseControl(lwheel, rwheel)
 basic.pause(50)
-// Run line follow till magnet detected then stop
+// run line follow till magnet detected
 while (magnet_detect(500) == 0) {
     follow_line()
 }
@@ -356,28 +369,31 @@ CutebotPro.pwmCruiseControl(0, 0)
 basic.pause(100)
 CutebotPro.turnOffAllHeadlights()
 // # START MAZE ##
-//  be square with maze:
+// be square with maze:
 // CutebotPro.trolley_steering(CutebotProTurn.RIGHT_IN_PLACE, 90)
 // CutebotPro.distance_running(CutebotProOrientation.ADVANCE, 5, CutebotProDistanceUnits.CM)
 CutebotPro.trolleySteering(CutebotProTurn.LeftInPlace, 90)
 // move_forward()
 CutebotPro.distanceRunning(CutebotProOrientation.Advance, 15.35, CutebotProDistanceUnits.Cm)
+// originate arrays for dead end navigation and depth-first search code
 let grid_type : number[] = []
 // Java script, defines array as an integer array
 let intersection : number[] = []
-// originate empty path taken
+// originate empty path taken by robot
 let path : number[] = []
+// set magnet count to one after the maze is entered
 let magnet_count = 1
-// maze navigation before magnet is located
+// # MAZE NAVIGATION BEFORE MAGNET IS FOUND ##
 while (magnet_count < 2) {
+    // loop until a second magnet is found
     mag = magnet_detect(500)
-    // magnet found
     if (mag == 1) {
+        // magnet found
         magnet_count += 1
     }
     
-    // magnet inside maze located  
     if (magnet_count == 2) {
+        // magnet inside maze located
         path.push(5)
         basic.showNumber(5)
         turn_right()
@@ -387,22 +403,24 @@ while (magnet_count < 2) {
         basic.showNumber(1)
     } else {
         // continue maze navigation
-        // Check forward 
+        // check forward 
         front = check_distance()
         basic.pause(100)
-        //  Look right
+        // look right
         turn_right()
         right = check_distance()
         basic.pause(100)
-        //  Look left
+        // look left
         turn_left()
         turn_left()
         left = check_distance()
         basic.pause(100)
-        //  Maze Nav -- Depth first (left favoring)
+        //  Maze nav -- Depth first
         if (left > disp && front > disp && right > disp) {
+            // evaluate where walls are encountered
             grid = 1
             grid_type.push(grid)
+            // store which type of grid/wall layout is encountered, 8 types total
             intersection.push(grid_type.length)
         } else if (left > disp && front > disp) {
             // note where intersections occur
@@ -410,14 +428,17 @@ while (magnet_count < 2) {
             grid_type.push(grid)
             intersection.push(grid_type.length)
         } else if (left > disp && right > disp) {
+            // considered intersection
             grid = 3
             grid_type.push(grid)
             intersection.push(grid_type.length)
         } else if (front > disp && right > disp) {
+            // considered intersection
             grid = 4
             grid_type.push(grid)
             intersection.push(grid_type.length)
         } else if (left > disp) {
+            // considered intersection
             grid = 5
             grid_type.push(grid)
         } else if (front > disp) {
@@ -431,29 +452,35 @@ while (magnet_count < 2) {
             grid_type.push(grid)
         }
         
-        //  Movement Decision
+        //  Movement Decision (left favoring)
         if (left > disp) {
+            // go left
             move_forward()
             path.push(2)
             basic.showNumber(2)
         } else if (front > disp) {
+            // go forward
             turn_right()
             move_forward()
             path.push(1)
             basic.showNumber(1)
         } else if (right > disp) {
+            // go right
             turn_right()
             turn_right()
             move_forward()
             path.push(3)
             basic.showNumber(3)
         } else {
-            //  Dead end
+            // dead end encountered
             turn_left()
             path.push(0)
             basic.showNumber(0)
+            // run dead end navigation code
             displacement = path.length - intersection[intersection.length - 1]
+            // calculate displacement between last intersection and dead end
             disp_array.push(displacement)
+            // store displacements between intersections and dead ends
             basic.showNumber(displacement)
             dead_end(displacement)
         }
@@ -461,38 +488,38 @@ while (magnet_count < 2) {
     }
     
 }
-// # EXITING MAZE ##
+// # MAZE NAVIGATION TO EXIT MAZE ##
 while (magnet_count < 3) {
+    // search for magnet
     mag = magnet_detect(150)
-    // magnet found
+    // exit magnet located
     if (mag == 1) {
         magnet_count += 1
     }
     
-    // magnet inside maze located
-    // end maze navigation
+    // end maze navigation if magnet is found
     if (magnet_count == 3) {
         led.plot(0, 0)
     } else {
-        // Check forward
+        // check forward
         front = check_distance()
         basic.pause(100)
-        //  Look left
+        // look left
         turn_left()
         left = check_distance()
         basic.pause(100)
-        //  Look right
+        // look right
         turn_right()
         turn_right()
         right = check_distance()
         basic.pause(100)
-        //  Maze Nav -- Depth first (left favoring)
+        //  Maze nav -- Depth first
+        // same grid/wall pattern evaluation and storage as the previous loop
         if (left > disp && front > disp && right > disp) {
             grid = 1
             grid_type.push(grid)
             intersection.push(grid_type.length)
         } else if (left > disp && front > disp) {
-            // note where intersections occur
             grid = 2
             grid_type.push(grid)
             intersection.push(grid_type.length)
@@ -518,28 +545,33 @@ while (magnet_count < 3) {
             grid_type.push(grid)
         }
         
-        //  Movement Decision
+        //  Movement Decision (right favoring)
         if (right > disp) {
+            // go right
             move_forward()
             path.push(3)
             basic.showNumber(3)
         } else if (front > disp) {
+            // go forward
             turn_left()
             move_forward()
             path.push(1)
             basic.showNumber(1)
         } else if (left > disp) {
+            // go left
             turn_left()
             turn_left()
             move_forward()
             path.push(2)
             basic.showNumber(2)
         } else {
-            //  Dead end
+            // dead end encountered
+            // same as before, excpet robot is now facing right and turns right to exit dead end
             turn_right()
             path.push(0)
             basic.showNumber(0)
             displacement = path.length - intersection[intersection.length - 1] - 2
+            // subtract two from length of path to account for magnet detection adding to path length
             disp_array.push(displacement)
             basic.showNumber(displacement)
             dead_end(displacement)
@@ -548,7 +580,7 @@ while (magnet_count < 3) {
     }
     
 }
-//  play celebration!!
+// # PLAY CELEBRATION!! ##
 end = 1
 music.stopAllSounds()
 total(130)
@@ -556,7 +588,7 @@ music.stopAllSounds()
 CutebotPro.colorLight(CutebotProRGBLight.RGBL, 0x000000)
 CutebotPro.colorLight(CutebotProRGBLight.RGBR, 0x000000)
 CutebotPro.pwmCruiseControl(0, 0)
-//  send path to other robot:
+// # TRANSMIT PATH TO SECOND MICROBIT ##
 input.onButtonPressed(Button.A, function on_button_pressed_a() {
     let val: number;
     basic.pause(1000)

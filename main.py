@@ -1,6 +1,6 @@
 ######FUNCTIONS######
 
-#magnet checking function (return 1/0 for true/false)
+## magnet checking function (return 1/0 for true/false)
 def magnet_detect(thresh):
     # variable to determine if we detected a magnet (boolean)
     mag = 0
@@ -21,27 +21,32 @@ def magnet_detect(thresh):
         basic.pause(1000)
     return mag
 
-## dead end function (depth-first search)
+## dead end function (depth-first search, complexity pts)
 def dead_end(displacement):
     if displacement != 1:
         #go back to last intersection
-        for i in range(displacement - 1): # move one square less than the displacement
-            direct = path[len(path)-(i+2)]
+        for i in range(displacement - 1): #move one square less than the displacement
+            direct = path[len(path)-(i+2)] #read corresponding move that led to the dead end
+            #move based on previous directions that led from last intersection to dead end
             if direct == 1:
                 move_forward()
                 basic.show_number(1)
             elif direct == 2:
+                #left turn becomes a right turn
                 move_forward()
                 turn_right()
                 basic.show_number(3)
             elif direct == 3:
+                #right turn becomes a left turn
                 move_forward()
                 turn_left()
                 basic.show_number(2)
-    move_forward()
+    move_forward() #automatically leave dead end square if disp=1, add one forward move to sequence if disp>1
 
 
-## BACKGROUND MUSIC FUNCTION ##
+## BACKGROUND MUSIC FUNCTIONS ## (creativity pts)
+
+## music function
 def missionImpossibleMusic(bpm):
     music.play(music.string_playable("G4 G4 - G4 G4 G4 Bb4 Bb4", bpm),
         music.PlaybackMode.UNTIL_DONE)
@@ -64,7 +69,7 @@ def missionImpossibleMusic(bpm):
     music.play(music.string_playable("Bb4 C5 - -", bpm),
         music.PlaybackMode.UNTIL_DONE)
 
-# make music play in background
+## music play in background function
 def onIn_background():
     global end
     music.set_volume(75)
@@ -73,7 +78,10 @@ def onIn_background():
         basic.pause(500)
     pass
 
+
 ## DIRECTION CORRECTION FUNCTIONS ##
+
+## robot straightening function
 def straighten_to_line():
     #keep counter to break while loop
     count = 0
@@ -117,6 +125,7 @@ def straighten_to_line():
         basic.pause(50)
         error = CutebotPro.get_offset()
 
+## black line detecing function
 def detect_line():
     global magnet_count
     # get the line tracking offset
@@ -135,7 +144,10 @@ def detect_line():
             line = 1
     return line
 
-#turns for line following
+
+## LINE FOLLOWING FUNCTIONS ##
+
+## right turn function
 def turn_r():
     global lwheel, rwheel, maxturnspeed
     lwheel = lwheel + (abs(error)/3000)*maxturnspeed
@@ -145,6 +157,8 @@ def turn_r():
      #delay 0.05 sec
      #delay 0.01 sec
     basic.pause(10)
+
+## left turn function
 def turn_l():
     global lwheel, rwheel, maxturnspeed
     lwheel = lwheel - (abs(error)/3000)*maxturnspeed
@@ -155,7 +169,7 @@ def turn_l():
      #delay 0.01 sec
     basic.pause(10)
 
-## Line Following Function ##
+## main line following function
 def follow_line():
     global lwheel, rwheel, error
  
@@ -211,7 +225,9 @@ def follow_line():
     basic.pause(5)
 
 
-# function for checking if wall is too close and backing up:
+## PROXIMITY CORRECTION FUNCTIONS ##
+
+## checking if wall is too close and backing up functions
 def check_if_too_close():
     sonar = abs(CutebotPro.ultrasonic(SonarUnit.CENTIMETERS))
     if sonar < 5: #check what is too close
@@ -219,22 +235,26 @@ def check_if_too_close():
         dist = 5-sonar
         CutebotPro.distance_running(CutebotProOrientation.RETREAT, dist, CutebotProDistanceUnits.CM)
 
-#functions for turning and moving forward
 def check_distance():
     check_if_too_close()
     return CutebotPro.ultrasonic(SonarUnit.CENTIMETERS)
 
+
+## MAZE MOVEMENT FUNCTIONS ##
+
+## 90 degree left turn function
 def turn_left():
     CutebotPro.trolley_steering(CutebotProTurn.LEFT_IN_PLACE, 90)
     #CutebotPro.trolley_speed_steering(50, CutebotProTurn.LEFT, 90)
-
     basic.pause(100)
 
+## 90 degree right turn function
 def turn_right():
     CutebotPro.trolley_steering(CutebotProTurn.RIGHT_IN_PLACE, 90)
     #CutebotPro.trolley_speed_steering(50, CutebotProTurn.RIGHT, 90)
     basic.pause(100)
 
+## move forward function
 def move_forward():
     CutebotPro.pwm_cruise_control(20, 20)
     line_found = 0
@@ -242,6 +262,7 @@ def move_forward():
         line_found = detect_line()
     CutebotPro.distance_running(CutebotProOrientation.ADVANCE, 15.35, CutebotProDistanceUnits.CM)
     basic.pause(100)
+
 
 ## TRANSMISSION FUNCTION ##
 def on_button_pressed_a():
@@ -254,6 +275,7 @@ def on_button_pressed_a():
             radio.send_value("int",val)
             int_count+=1
         basic.pause(700)  # Small delay for good transmission
+
 
 ## CELEBRATE FUNCTION ##
 def total(bpm):
@@ -313,27 +335,30 @@ def total(bpm):
         music.play(music.string_playable("A", bpm*2),
                     music.PlaybackMode.UNTIL_DONE)
    
+
+
 ###### MAIN CODE ######
 end = 0
-#control.in_background(onIn_background)
+control.in_background(onIn_background) #runs mission impossible music
 
-## LINE FOLLOWING
+
+## LINE FOLLOWING ##
 #set variables
 lwheel = 20
 rwheel = 20
 error = 0
 maxturnspeed = 70
 disp = 25
-disp_array: List[number] = [] #Java script, defines array as an integer array
+disp_array: List[number] = [] #Java script, defines array as an integer array (this notation is used for all arrays)
 
-# set starting speed
+#set starting speed
 CutebotPro.pwm_cruise_control(lwheel, rwheel)
 basic.pause(50)
 
-#Run line follow till magnet detected then stop
-
+#run line follow till magnet detected
 while (magnet_detect(500) == 0):
    follow_line()
+
 #stop robot
 CutebotPro.pwm_cruise_control(0, 0)
 basic.pause(100)
@@ -341,8 +366,7 @@ CutebotPro.turn_off_all_headlights()
 
 
 ## START MAZE ##
-# be square with maze:
-
+#be square with maze:
 #CutebotPro.trolley_steering(CutebotProTurn.RIGHT_IN_PLACE, 90)
 #CutebotPro.distance_running(CutebotProOrientation.ADVANCE, 5, CutebotProDistanceUnits.CM)
 CutebotPro.trolley_steering(CutebotProTurn.LEFT_IN_PLACE, 90)
@@ -350,22 +374,24 @@ CutebotPro.trolley_steering(CutebotProTurn.LEFT_IN_PLACE, 90)
 CutebotPro.distance_running(CutebotProOrientation.ADVANCE, 15.35, CutebotProDistanceUnits.CM)
 
 
+#originate arrays for dead end navigation and depth-first search code
 grid_type: List[number] = [] #Java script, defines array as an integer array
 intersection: List[number] = []
 
-#originate empty path taken
+#originate empty path taken by robot
 path: List[number] = []
 
+#set magnet count to one after the maze is entered
 magnet_count = 1
 
-#maze navigation before magnet is located
-while magnet_count < 2:
+## MAZE NAVIGATION BEFORE MAGNET IS FOUND ##
+while magnet_count < 2: #loop until a second magnet is found
     mag = magnet_detect(500)
-    #magnet found
-    if mag == 1:
+
+    if mag == 1: #magnet found
         magnet_count+=1
-        #magnet inside maze located  
-    if magnet_count == 2:
+          
+    if magnet_count == 2: #magnet inside maze located
         path.append(5)
         basic.show_number(5)
         turn_right()
@@ -376,38 +402,38 @@ while magnet_count < 2:
 
     #continue maze navigation
     else:
-        #Check forward 
+        #check forward 
         front = check_distance()
         basic.pause(100)
 
-        # Look right
+        #look right
         turn_right()
         right = check_distance()
         basic.pause(100)
         
-        # Look left
+        #look left
         turn_left()
         turn_left()
         left = check_distance()
         basic.pause(100)
 
-        # Maze Nav -- Depth first (left favoring)
-        if left>disp and front>disp and right>disp:
+        # Maze nav -- Depth first
+        if left>disp and front>disp and right>disp: #evaluate where walls are encountered
             grid = 1
-            grid_type.append(grid)
+            grid_type.append(grid) #store which type of grid/wall layout is encountered, 8 types total
             intersection.append(len(grid_type)) #note where intersections occur
         elif left > disp and front > disp:
             grid = 2
             grid_type.append(grid)
-            intersection.append(len(grid_type))
+            intersection.append(len(grid_type)) #considered intersection
         elif left > disp and right > disp:
             grid = 3
             grid_type.append(grid)
-            intersection.append(len(grid_type))
+            intersection.append(len(grid_type)) #considered intersection
         elif front > disp and right > disp:
             grid = 4
             grid_type.append(grid)
-            intersection.append(len(grid_type))
+            intersection.append(len(grid_type)) #considered intersection
         elif left > disp:
             grid = 5
             grid_type.append(grid)
@@ -421,19 +447,19 @@ while magnet_count < 2:
             grid = 8
             grid_type.append(grid)
 
-        # Movement Decision
-        if left > disp:
+        # Movement Decision (left favoring)
+        if left > disp: #go left
             move_forward()
             path.append(2)
             basic.show_number(2)
 
-        elif front > disp:
+        elif front > disp: #go forward
             turn_right()
             move_forward()
             path.append(1)
             basic.show_number(1)
 
-        elif right > disp:
+        elif right > disp: #go right
             turn_right()
             turn_right()
             move_forward()
@@ -441,50 +467,53 @@ while magnet_count < 2:
             basic.show_number(3)
 
         else:
-            # Dead end
+            #dead end encountered
             turn_left()
             path.append(0)
             basic.show_number(0)
-            displacement = (len(path) - intersection[len(intersection)-1])
-            disp_array.append(displacement)
+            #run dead end navigation code
+            displacement = (len(path) - intersection[len(intersection)-1]) #calculate displacement between last intersection and dead end
+            disp_array.append(displacement) #store displacements between intersections and dead ends
             basic.show_number(displacement)
             dead_end(displacement)
 
 
-## EXITING MAZE ##
+## MAZE NAVIGATION TO EXIT MAZE ##
 while magnet_count < 3:
+    
+    #search for magnet
     mag = magnet_detect(150)
-        #magnet found
 
+    #exit magnet located
     if mag == 1:
         magnet_count+=1
-        #magnet inside maze located
-
-    #end maze navigation
+        
+    #end maze navigation if magnet is found
     if magnet_count == 3:
         led.plot(0, 0)
 
     else:
-        #Check forward
+        #check forward
         front = check_distance()
         basic.pause(100)
 
-        # Look left
+        #look left
         turn_left()
         left = check_distance()
         basic.pause(100)
         
-        # Look right
+        #look right
         turn_right()
         turn_right()
         right = check_distance()
         basic.pause(100)
 
-        # Maze Nav -- Depth first (left favoring)
+        # Maze nav -- Depth first
+        #same grid/wall pattern evaluation and storage as the previous loop
         if left>disp and front>disp and right>disp:
             grid = 1
             grid_type.append(grid)
-            intersection.append(len(grid_type)) #note where intersections occur
+            intersection.append(len(grid_type)) 
         elif left > disp and front > disp:
             grid = 2
             grid_type.append(grid)
@@ -510,19 +539,19 @@ while magnet_count < 3:
             grid = 8
             grid_type.append(grid)
 
-        # Movement Decision
-        if right > disp:
+        # Movement Decision (right favoring)
+        if right > disp: #go right
             move_forward()
             path.append(3)
             basic.show_number(3)
 
-        elif front > disp:
+        elif front > disp: #go forward
             turn_left()
             move_forward()
             path.append(1)
             basic.show_number(1)
 
-        elif left > disp:
+        elif left > disp: #go left
             turn_left()
             turn_left()
             move_forward()
@@ -530,20 +559,19 @@ while magnet_count < 3:
             basic.show_number(2)
 
         else:
-            # Dead end
+            #dead end encountered
+            #same as before, excpet robot is now facing right and turns right to exit dead end
             turn_right()
             path.append(0)
             basic.show_number(0)
-            displacement = (len(path) - intersection[len(intersection)-1]-2)
+            displacement = (len(path) - intersection[len(intersection)-1]-2) #subtract two from length of path to account for magnet detection adding to path length
             disp_array.append(displacement)
             basic.show_number(displacement)
             dead_end(displacement)
 
 
 
-
-
-# play celebration!!
+## PLAY CELEBRATION!! ##
 end = 1
 music.stop_all_sounds()
 total(130)
@@ -553,6 +581,6 @@ CutebotPro.color_light(CutebotProRGBLight.RGBR, 0x000000)
 CutebotPro.pwm_cruise_control(0, 0)
 
 
-# send path to other robot:
+## TRANSMIT PATH TO SECOND MICROBIT ##
 input.on_button_pressed(Button.A, on_button_pressed_a)
-radio.set_group(10)
+radio.set_group(10) #radio channel 10
