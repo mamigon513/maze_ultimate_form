@@ -599,10 +599,12 @@ CutebotPro.pwmCruiseControl(0, 0)
 // # TRANSMIT PATH TO SECOND MICROBIT ##
 input.onButtonPressed(Button.A, function on_button_pressed_a() {
     let val: number;
+    // when button a is pressed on the microbit
     basic.pause(1000)
     let int_count = 0
     for (let i = 0; i < path.length; i++) {
         radio.sendValue("step", path[i])
+        // send values from array acquired after going through maze
         if (path[i] == 0) {
             val = disp_array[int_count]
             radio.sendValue("int", val)
@@ -612,4 +614,5 @@ input.onButtonPressed(Button.A, function on_button_pressed_a() {
         basic.pause(700)
     }
 })
+// call the transmission function
 radio.setGroup(10)

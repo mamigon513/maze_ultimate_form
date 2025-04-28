@@ -265,11 +265,12 @@ def move_forward():
 
 
 ## TRANSMISSION FUNCTION ##
-def on_button_pressed_a():
+def on_button_pressed_a():  #when button a is pressed on the microbit
     basic.pause(1000)
     int_count = 0
     for i in range(len(path)):
         radio.send_value("step", path[i])
+        #send values from array acquired after going through maze
         if path[i] == 0:
             val = disp_array[int_count]
             radio.send_value("int",val)
@@ -590,5 +591,5 @@ CutebotPro.pwm_cruise_control(0, 0)
 
 
 ## TRANSMIT PATH TO SECOND MICROBIT ##
-input.on_button_pressed(Button.A, on_button_pressed_a)
-radio.set_group(10) #radio channel 10
+input.on_button_pressed(Button.A, on_button_pressed_a) #call the transmission function
+radio.set_group(10) #set radio channel
