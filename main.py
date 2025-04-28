@@ -46,7 +46,7 @@ def dead_end(displacement):
 
 ## BACKGROUND MUSIC FUNCTIONS ## (creativity pts)
 
-## music function
+## music function. Plays notes at an adjustable BPM. 
 def missionImpossibleMusic(bpm):
     music.play(music.string_playable("G4 G4 - G4 G4 G4 Bb4 Bb4", bpm),
         music.PlaybackMode.UNTIL_DONE)
@@ -69,7 +69,7 @@ def missionImpossibleMusic(bpm):
     music.play(music.string_playable("Bb4 C5 - -", bpm),
         music.PlaybackMode.UNTIL_DONE)
 
-## music play in background function
+## function: play mission impossible in background 
 def onIn_background():
     global end
     music.set_volume(75)
@@ -279,14 +279,18 @@ def on_button_pressed_a():
 
 ## CELEBRATE FUNCTION ##
 def total(bpm):
-    #orient out of maze
+    #exit maze
     CutebotPro.pwm_cruise_control(100,100)
     pause(1000)
 
+    #play melody twice
     for i in range(2):
+        #spin
         CutebotPro.pwm_cruise_control(0,100)
+        #change lights
         CutebotPro.color_light(CutebotProRGBLight.RGBL, 0xff0000)
         CutebotPro.color_light(CutebotProRGBLight.RGBR, 0x7f00ff)
+        #play music
         music.play(music.string_playable("C", bpm),
                 music.PlaybackMode.UNTIL_DONE)
         CutebotPro.color_light(CutebotProRGBLight.RGBL, 0xff8000)
@@ -300,6 +304,7 @@ def total(bpm):
         CutebotPro.pwm_cruise_control(100,0)
         CutebotPro.color_light(CutebotProRGBLight.RGBL, 0x00ff00)
         CutebotPro.color_light(CutebotProRGBLight.RGBR, 0xffff00)
+        #increase bpm for faster notes
         music.play(music.string_playable("C", bpm*2),
                     music.PlaybackMode.UNTIL_DONE)
         CutebotPro.color_light(CutebotProRGBLight.RGBL, 0x00ffff)
@@ -316,6 +321,7 @@ def total(bpm):
                     music.PlaybackMode.UNTIL_DONE)
         CutebotPro.color_light(CutebotProRGBLight.RGBL, 0xff00ff)
         CutebotPro.color_light(CutebotProRGBLight.RGBR, 0x00ff00)
+        #squiggle forward movement
         CutebotPro.pwm_cruise_control(0,50)
         music.play(music.string_playable("E", bpm*2),
                     music.PlaybackMode.UNTIL_DONE)
@@ -574,7 +580,9 @@ while magnet_count < 3:
 ## PLAY CELEBRATION!! ##
 end = 1
 music.stop_all_sounds()
+#play celebration at bpm 130
 total(130)
+#turn off sounds, lights, and motor
 music.stop_all_sounds()
 CutebotPro.color_light(CutebotProRGBLight.RGBL, 0x000000)
 CutebotPro.color_light(CutebotProRGBLight.RGBR, 0x000000)

@@ -62,7 +62,7 @@ function dead_end(displacement: number) {
 
 // automatically leave dead end square if disp=1, add one forward move to sequence if disp>1
 // # BACKGROUND MUSIC FUNCTIONS ## (creativity pts)
-// # music function
+// # music function. Plays notes at an adjustable BPM. 
 function missionImpossibleMusic(bpm: number) {
     music.play(music.stringPlayable("G4 G4 - G4 G4 G4 Bb4 Bb4", bpm), music.PlaybackMode.UntilDone)
     music.play(music.stringPlayable("C5 C5 G4 G4 - G4 G4 G4", bpm), music.PlaybackMode.UntilDone)
@@ -76,7 +76,7 @@ function missionImpossibleMusic(bpm: number) {
     music.play(music.stringPlayable("Bb4 C5 - -", bpm), music.PlaybackMode.UntilDone)
 }
 
-// # music play in background function
+// # function: play mission impossible in background 
 // # DIRECTION CORRECTION FUNCTIONS ##
 // # robot straightening function
 function straighten_to_line() {
@@ -290,13 +290,17 @@ function move_forward() {
 //  Small delay for good transmission
 // # CELEBRATE FUNCTION ##
 function total(bpm: number) {
-    // orient out of maze
+    // exit maze
     CutebotPro.pwmCruiseControl(100, 100)
     pause(1000)
+    // play melody twice
     for (let i = 0; i < 2; i++) {
+        // spin
         CutebotPro.pwmCruiseControl(0, 100)
+        // change lights
         CutebotPro.colorLight(CutebotProRGBLight.RGBL, 0xff0000)
         CutebotPro.colorLight(CutebotProRGBLight.RGBR, 0x7f00ff)
+        // play music
         music.play(music.stringPlayable("C", bpm), music.PlaybackMode.UntilDone)
         CutebotPro.colorLight(CutebotProRGBLight.RGBL, 0xff8000)
         CutebotPro.colorLight(CutebotProRGBLight.RGBR, 0x007fff)
@@ -307,6 +311,7 @@ function total(bpm: number) {
         CutebotPro.pwmCruiseControl(100, 0)
         CutebotPro.colorLight(CutebotProRGBLight.RGBL, 0x00ff00)
         CutebotPro.colorLight(CutebotProRGBLight.RGBR, 0xffff00)
+        // increase bpm for faster notes
         music.play(music.stringPlayable("C", bpm * 2), music.PlaybackMode.UntilDone)
         CutebotPro.colorLight(CutebotProRGBLight.RGBL, 0x00ffff)
         CutebotPro.colorLight(CutebotProRGBLight.RGBR, 0xff8000)
@@ -319,6 +324,7 @@ function total(bpm: number) {
         music.play(music.stringPlayable("F", bpm), music.PlaybackMode.UntilDone)
         CutebotPro.colorLight(CutebotProRGBLight.RGBL, 0xff00ff)
         CutebotPro.colorLight(CutebotProRGBLight.RGBR, 0x00ff00)
+        // squiggle forward movement
         CutebotPro.pwmCruiseControl(0, 50)
         music.play(music.stringPlayable("E", bpm * 2), music.PlaybackMode.UntilDone)
         CutebotPro.colorLight(CutebotProRGBLight.RGBL, 0x00ff00)
@@ -583,7 +589,9 @@ while (magnet_count < 3) {
 // # PLAY CELEBRATION!! ##
 end = 1
 music.stopAllSounds()
+// play celebration at bpm 130
 total(130)
+// turn off sounds, lights, and motor
 music.stopAllSounds()
 CutebotPro.colorLight(CutebotProRGBLight.RGBL, 0x000000)
 CutebotPro.colorLight(CutebotProRGBLight.RGBR, 0x000000)
